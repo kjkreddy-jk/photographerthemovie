@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,600;1,700&family=Hanken+Grotesk:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{margin:0;background:#0a0e0b;color:#e9efe9;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
+img{display:block;max-width:100%;}
+a{color:inherit;text-decoration:none;}
+a:hover{color:var(--accent);}
+button{font:inherit;border:0;background:none;}
+::selection{background:var(--accent);color:var(--accent-ink);}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@keyframes mfade{from{opacity:0}to{opacity:1}}
+</style>
+</helmet>
+<div style="position:relative;min-height:100vh;--bg:#0a0e0b;--bg-2:#0d1310;--surface:#121a15;--surface-2:#18221c;--text:#e9efe9;--muted:#9db0a3;--faint:#617a6c;--border:rgba(180,210,190,0.13);--accent:oklch(0.79 0.075 155);--accent-ink:#07130c;--accent-soft:rgba(150,196,168,0.14);--stripe:rgba(150,196,168,0.06);--overlay:6,12,8;--grain:0.06;--shadow:0 24px 60px -40px rgba(0,0,0,0.8);--display-weight:700;--font-display:'Archivo',sans-serif;--font-body:'Hanken Grotesk',sans-serif;--font-mono:'Hanken Grotesk',sans-serif;background:#0a0e0b;">
+<div style="min-height:100vh;background:var(--bg);color:var(--text);font-family:var(--font-body);position:relative;overflow-x:clip;{{ themeVars }}">
+
+<div style="position:fixed;inset:0;z-index:6;pointer-events:none;opacity:var(--grain);mix-blend-mode:soft-light;background-image:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E&quot;);"></div>
+
+<header style="position:fixed;top:0;left:0;right:0;z-index:50;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);background:color-mix(in srgb, var(--bg) 84%, transparent);border-bottom:1px solid var(--border);transition:transform .35s ease, opacity .3s ease;transform:{{ navTransform }};opacity:{{ navOpacity }};pointer-events:{{ navPE }};">
+  <div style="max-width:1360px;margin:0 auto;padding:13px clamp(18px,4vw,44px);display:flex;align-items:center;gap:18px;flex-wrap:wrap;">
+    <a href="#top" style="font-family:var(--font-display);font-weight:800;text-transform:uppercase;letter-spacing:0.02em;font-size:clamp(15px,1.4vw,19px);color:var(--text);">Photographer</a>
+    <nav style="display:flex;gap:clamp(12px,1.7vw,26px);margin-left:auto;flex-wrap:wrap;align-items:center;">
+      <sc-for list="{{ navLinks }}" as="lk" hint-placeholder-count="6">
+        <a href="{{ lk.h }}" style="font-size:13px;font-weight:500;letter-spacing:0.04em;color:var(--muted);">{{ lk.l }}</a>
+      </sc-for>
+    </nav>
+    <a href="#tickets" style="padding:12px 24px;border-radius:999px;background:var(--accent);color:var(--accent-ink);font-weight:600;font-size:14px;letter-spacing:0.02em;">Book Tickets</a>
+  </div>
+</header>
+
+<section id="top" style="position:relative;min-height:clamp(560px,92vh,1000px);display:flex;align-items:flex-end;overflow:hidden;scroll-margin-top:74px;background:var(--bg);">
+  <div style="position:absolute;inset:0;overflow:hidden;background:#050706;pointer-events:none;">
+    <iframe ref="{{ bgRef }}" title="Photographer trailer" allow="autoplay; encrypted-media; fullscreen" frameborder="0" style="position:absolute;top:50%;left:50%;width:max(100vw,177.78vh);height:max(56.25vw,100vh);transform:translate(-50%,-50%);border:0;pointer-events:none;"></iframe>
+  </div>
+  <div style="position:absolute;inset:0;background:linear-gradient(to top, var(--bg) 0%, rgba(5,10,7,0.92) 20%, rgba(5,10,7,0.55) 52%, rgba(5,10,7,0.42) 100%);"></div>
+  <div style="position:absolute;inset:0;background:radial-gradient(58% 55% at 10% 98%, var(--accent-soft), transparent 60%);mix-blend-mode:screen;"></div>
+  <button onClick="{{ toggleMute }}" aria-label="Toggle sound" style="position:absolute;right:clamp(18px,4vw,44px);bottom:clamp(22px,4vh,40px);z-index:3;width:52px;height:52px;padding:0;border-radius:999px;border:1px solid rgba(255,255,255,0.32);background:rgba(5,10,7,0.5);backdrop-filter:blur(8px);color:#fff;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;" style-hover="border-color:var(--accent);background:rgba(5,10,7,0.72);">
+    <sc-if value="{{ muted }}" hint-placeholder-val="{{ true }}">
+      <span style="display:block;width:22px;height:22px;background-color:currentColor;-webkit-mask:url(&quot;data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2024%2024'%3E%3Cpath%20d='M3%209.5v5h3.5l5%204v-13l-5%204H3z'%20fill='black'/%3E%3Cpath%20d='M16%209.5l5.5%205.5M21.5%209.5l-5.5%205.5'%20fill='none'%20stroke='black'%20stroke-width='2'%20stroke-linecap='round'/%3E%3C/svg%3E&quot;) center/contain no-repeat;mask:url(&quot;data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2024%2024'%3E%3Cpath%20d='M3%209.5v5h3.5l5%204v-13l-5%204H3z'%20fill='black'/%3E%3Cpath%20d='M16%209.5l5.5%205.5M21.5%209.5l-5.5%205.5'%20fill='none'%20stroke='black'%20stroke-width='2'%20stroke-linecap='round'/%3E%3C/svg%3E&quot;) center/contain no-repeat;"></span>
+    </sc-if>
+    <sc-if value="{{ soundOn }}" hint-placeholder-val="{{ false }}">
+      <span style="display:block;width:22px;height:22px;background-color:currentColor;-webkit-mask:url(&quot;data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2024%2024'%3E%3Cpath%20d='M3%209.5v5h3.5l5%204v-13l-5%204H3z'%20fill='black'/%3E%3Cpath%20d='M15.5%209a4.5%204.5%200%200%201%200%206'%20fill='none'%20stroke='black'%20stroke-width='2'%20stroke-linecap='round'/%3E%3Cpath%20d='M18.5%206.5a8%208%200%200%201%200%2011'%20fill='none'%20stroke='black'%20stroke-width='2'%20stroke-linecap='round'/%3E%3C/svg%3E&quot;) center/contain no-repeat;mask:url(&quot;data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2024%2024'%3E%3Cpath%20d='M3%209.5v5h3.5l5%204v-13l-5%204H3z'%20fill='black'/%3E%3Cpath%20d='M15.5%209a4.5%204.5%200%200%201%200%206'%20fill='none'%20stroke='black'%20stroke-width='2'%20stroke-linecap='round'/%3E%3Cpath%20d='M18.5%206.5a8%208%200%200%201%200%2011'%20fill='none'%20stroke='black'%20stroke-width='2'%20stroke-linecap='round'/%3E%3C/svg%3E&quot;) center/contain no-repeat;"></span>
+    </sc-if>
+  </button>
+  <div style="position:relative;width:100%;max-width:1360px;margin:0 auto;padding:0 clamp(18px,4vw,44px) clamp(44px,6vw,84px);animation:fadeUp .8s ease both;">
+    <h1 style="font-family:var(--font-display);font-weight:800;text-transform:uppercase;letter-spacing:-0.02em;line-height:0.86;font-size:clamp(44px,9vw,68px);margin:0;color:#fff;">Photographer</h1>
+  </div>
+</section>
+
+<section id="release" style="background:var(--bg);border-bottom:1px solid var(--border);padding:clamp(30px,4.5vw,54px) 0;scroll-margin-top:74px;">
+  <div style="max-width:1360px;margin:0 auto;padding:0 clamp(18px,4vw,44px);display:flex;justify-content:space-between;align-items:center;gap:clamp(28px,5vw,64px);flex-wrap:wrap;">
+    <div style="display:flex;flex-direction:column;gap:22px;min-width:min(100%,300px);">
+      <div style="display:flex;gap:9px;flex-wrap:wrap;">
+        <span style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.16em;padding:6px 13px;border:1px solid var(--border);border-radius:999px;color:var(--muted);">2026</span>
+        <span style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.16em;padding:6px 13px;border:1px solid var(--border);border-radius:999px;color:var(--muted);">U/A</span>
+        <span style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.16em;padding:6px 13px;border:1px solid var(--border);border-radius:999px;color:var(--muted);">DRAMA</span>
+        <span style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.16em;padding:6px 13px;border:1px solid var(--border);border-radius:999px;color:var(--muted);">THRILLER</span>
+        <span style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.16em;padding:6px 13px;border:1px solid var(--border);border-radius:999px;color:var(--muted);">MYSTERY</span>
+      </div>
+      <div style="display:flex;gap:14px;flex-wrap:wrap;align-items:center;">
+        <a href="#tickets" style="padding:18px 40px;border-radius:999px;background:var(--accent);color:var(--accent-ink);font-weight:700;font-size:17px;letter-spacing:0.02em;">Book Tickets</a>
+        <button onClick="{{ openTrailer }}" style="padding:18px 34px;border-radius:999px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-weight:600;font-size:17px;cursor:pointer;display:inline-flex;align-items:center;gap:11px;" style-hover="border-color:var(--accent);">▶ Watch Trailer</button>
+      </div>
+    </div>
+    <div>
+      <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.24em;text-transform:uppercase;color:var(--accent);margin-bottom:14px;">In cinemas · 15 August 2026</div>
+      <div style="display:flex;gap:10px;">
+        <div style="min-width:66px;text-align:center;border:1px solid var(--border);background:var(--surface);border-radius:14px;padding:12px 10px;">
+          <div style="font-family:var(--font-mono);font-size:28px;font-weight:600;color:var(--text);line-height:1;">{{ cd.d }}</div>
+          <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:0.2em;color:var(--muted);text-transform:uppercase;margin-top:6px;">Days</div>
+        </div>
+        <div style="min-width:66px;text-align:center;border:1px solid var(--border);background:var(--surface);border-radius:14px;padding:12px 10px;">
+          <div style="font-family:var(--font-mono);font-size:28px;font-weight:600;color:var(--text);line-height:1;">{{ cd.h }}</div>
+          <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:0.2em;color:var(--muted);text-transform:uppercase;margin-top:6px;">Hrs</div>
+        </div>
+        <div style="min-width:66px;text-align:center;border:1px solid var(--border);background:var(--surface);border-radius:14px;padding:12px 10px;">
+          <div style="font-family:var(--font-mono);font-size:28px;font-weight:600;color:var(--text);line-height:1;">{{ cd.m }}</div>
+          <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:0.2em;color:var(--muted);text-transform:uppercase;margin-top:6px;">Min</div>
+        </div>
+        <div style="min-width:66px;text-align:center;border:1px solid var(--border);background:var(--surface);border-radius:14px;padding:12px 10px;">
+          <div style="font-family:var(--font-mono);font-size:28px;font-weight:600;color:var(--text);line-height:1;">{{ cd.s }}</div>
+          <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:0.2em;color:var(--muted);text-transform:uppercase;margin-top:6px;">Sec</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="story" style="padding:clamp(64px,9vw,150px) 0;background:var(--bg);scroll-margin-top:74px;">
+  <div style="max-width:1360px;margin:0 auto;padding:0 clamp(18px,4vw,44px);display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:clamp(36px,6vw,90px);align-items:start;">
+    <div>
+      <div style="font-family:var(--font-mono);font-size:12px;letter-spacing:0.28em;text-transform:uppercase;color:var(--faint);margin-bottom:22px;">The Story</div>
+      <p style="font-family:var(--font-display);font-weight:var(--display-weight);font-size:clamp(30px,4vw,58px);line-height:1.04;margin:0;color:var(--text);">A vision worth<br />losing everything for.</p>
+      <div style="margin-top:34px;display:grid;gap:14px;max-width:340px;">
+        <div style="display:flex;justify-content:space-between;gap:16px;padding-bottom:12px;border-bottom:1px solid var(--border);"><span style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--faint);">Genre</span><span style="font-size:14px;color:var(--muted);">Drama · Thriller · Mystery</span></div>
+        <div style="display:flex;justify-content:space-between;gap:16px;padding-bottom:12px;border-bottom:1px solid var(--border);"><span style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--faint);">Setting</span><span style="font-size:14px;color:var(--muted);">Mathikettan Solai</span></div>
+        <div style="display:flex;justify-content:space-between;gap:16px;padding-bottom:12px;border-bottom:1px solid var(--border);"><span style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--faint);">Release</span><span style="font-size:14px;color:var(--muted);">15 Aug 2026 · Theatres</span></div>
+      </div>
+    </div>
+    <div style="max-width:600px;">
+      <p style="font-size:clamp(17px,1.5vw,21px);line-height:1.75;color:var(--muted);margin:0 0 22px;"><span style="color:var(--text);font-weight:600;">Veera</span> is a troubled, obsessive photographer determined to prove his worth in a world that has long dismissed him.</p>
+      <p style="font-size:clamp(17px,1.5vw,21px);line-height:1.75;color:var(--muted);margin:0 0 22px;">Driven by ambition and haunted by a painful past, he ventures deep into <span style="color:var(--text);">Mathikettan Solai</span> — a mysterious reserve forest — to capture a rare and elusive natural phenomenon that could change his life forever.</p>
+      <p style="font-size:clamp(17px,1.5vw,21px);line-height:1.75;color:var(--muted);margin:0;">But the deeper he goes, the more the forest begins to photograph him back.</p>
+      <div style="margin-top:30px;padding:20px 24px;border-left:2px solid var(--accent);background:var(--accent-soft);border-radius:0 12px 12px 0;">
+        <p style="font-family:var(--font-display);font-style:italic;font-size:clamp(19px,1.8vw,24px);line-height:1.4;margin:0;color:var(--text);">"He came to take one picture. The forest had other plans."</p>
+        <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--faint);margin-top:12px;">Director's note · placeholder</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="tickets" style="padding:clamp(58px,8vw,120px) 0;background:var(--bg-2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);scroll-margin-top:74px;">
+  <div style="max-width:900px;margin:0 auto;padding:0 clamp(18px,4vw,44px);text-align:center;">
+    <div style="font-family:var(--font-mono);font-size:12px;letter-spacing:0.3em;text-transform:uppercase;color:var(--accent);margin-bottom:20px;">◉ In Cinemas Soon</div>
+    <p style="font-family:var(--font-display);font-weight:var(--display-weight);font-size:clamp(40px,6vw,86px);line-height:1;margin:0;color:var(--text);">15 August 2026</p>
+    <p style="font-size:15px;color:var(--muted);margin:18px 0 0;letter-spacing:0.02em;">Releasing in 2D across select cities · Certified U/A</p>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:26px 0 0;">
+      <sc-for list="{{ cities }}" as="c" hint-placeholder-count="6">
+        <span style="font-size:13px;color:var(--muted);padding:7px 14px;border:1px solid var(--border);border-radius:999px;background:var(--surface);">{{ c }}</span>
+      </sc-for>
+    </div>
+    <div style="display:flex;gap:13px;flex-wrap:wrap;justify-content:center;margin-top:34px;">
+      <button onClick="{{ notify }}" style="padding:19px 38px;border-radius:999px;background:var(--accent);color:var(--accent-ink);font-weight:700;font-size:17px;cursor:pointer;">Get Notified When Booking Opens</button>
+      <sc-for list="{{ partners }}" as="p" hint-placeholder-count="2">
+        <a href="{{ p.h }}" target="_blank" rel="noopener" style="padding:19px 34px;border-radius:999px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-weight:600;font-size:17px;display:inline-flex;align-items:center;gap:8px;" style-hover="border-color:var(--accent);">{{ p.l }}<span style="display:inline-block;width:11px;height:11px;vertical-align:-1px;margin-left:5px;background-color:currentColor;opacity:0.72;-webkit-mask:url(&quot;data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2024%2024'%3E%3Cpath%20d='M7%2017L17%207M8.5%207H17V15.5'%20fill='none'%20stroke='black'%20stroke-width='2.4'%20stroke-linecap='round'%20stroke-linejoin='round'/%3E%3C/svg%3E&quot;) center/contain no-repeat;mask:url(&quot;data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2024%2024'%3E%3Cpath%20d='M7%2017L17%207M8.5%207H17V15.5'%20fill='none'%20stroke='black'%20stroke-width='2.4'%20stroke-linecap='round'%20stroke-linejoin='round'/%3E%3C/svg%3E&quot;) center/contain no-repeat;"></span></a>
+      </sc-for>
+    </div>
+    <p style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.1em;color:var(--faint);margin:22px 0 0;">Pre-booking partners · dates subject to change</p>
+  </div>
+</section>
+
+<section id="videos" style="padding:clamp(56px,8vw,120px) 0;background:var(--bg);scroll-margin-top:74px;">
+  <div style="max-width:1360px;margin:0 auto;padding:0 clamp(18px,4vw,44px);">
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:30px;">
+      <div>
+        <div style="font-family:var(--font-mono);font-size:12px;letter-spacing:0.28em;text-transform:uppercase;color:var(--faint);margin-bottom:14px;">Watch</div>
+        <h2 style="font-family:var(--font-display);font-weight:var(--display-weight);font-size:clamp(30px,4vw,56px);line-height:1;margin:0;color:var(--text);">Trailers &amp; Videos</h2>
+      </div>
+      <span style="font-family:var(--font-mono);font-size:12px;letter-spacing:0.1em;color:var(--faint);">scroll →</span>
+    </div>
+  </div>
+  <div style="max-width:1360px;margin:0 auto;padding:4px clamp(18px,4vw,44px) 8px;display:flex;gap:18px;overflow-x:auto;scrollbar-width:thin;scrollbar-color:var(--border) transparent;">
+    <sc-for list="{{ trailers }}" as="v" hint-placeholder-count="5">
+      <button onClick="{{ v.onClick }}" style="flex:0 0 clamp(280px,27vw,380px);scroll-snap-align:start;text-align:left;cursor:pointer;background:transparent;padding:0;">
+        <div style="position:relative;aspect-ratio:16 / 9;border-radius:16px;overflow:hidden;border:1px solid var(--border);background:repeating-linear-gradient(135deg, var(--stripe) 0 11px, transparent 11px 22px), var(--surface-2);box-shadow:var(--shadow);transition:transform .25s ease,border-color .25s ease;" style-hover="transform:translateY(-4px);border-color:var(--accent);">
+          <sc-if value="{{ v.thumb }}" hint-placeholder-val="{{ false }}">
+            <img ref="{{ v.thumbRef }}" alt="{{ v.title }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;" />
+          </sc-if>
+          <sc-if value="{{ v.striped }}" hint-placeholder-val="{{ true }}">
+            <span style="position:absolute;left:14px;top:13px;font-family:var(--font-mono);font-size:11px;letter-spacing:0.12em;color:var(--faint);text-transform:lowercase;">{{ v.cap }}</span>
+          </sc-if>
+          <div style="position:absolute;inset:0;background:linear-gradient(to top, rgba(0,0,0,0.5), transparent 55%);"></div>
+          <span style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:52px;height:52px;border-radius:999px;background:rgba(0,0,0,0.42);border:1.5px solid rgba(255,255,255,0.75);color:#fff;display:flex;align-items:center;justify-content:center;font-size:15px;backdrop-filter:blur(4px);">▶</span>
+          <span style="position:absolute;right:11px;bottom:11px;font-family:var(--font-mono);font-size:11px;color:#fff;background:rgba(0,0,0,0.6);padding:3px 8px;border-radius:6px;">{{ v.dur }}</span>
+        </div>
+        <div style="padding:14px 4px 0;">
+          <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);margin-bottom:7px;">{{ v.kind }}</div>
+          <div style="font-size:16px;font-weight:600;color:var(--text);line-height:1.3;">{{ v.title }}</div>
+        </div>
+      </button>
+    </sc-for>
+  </div>
+</section>
+
+<section id="shorts" style="padding:clamp(56px,8vw,120px) 0;background:var(--bg-2);border-top:1px solid var(--border);scroll-margin-top:74px;">
+  <div style="max-width:1360px;margin:0 auto;padding:0 clamp(18px,4vw,44px);">
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:30px;">
+      <div>
+        <div style="font-family:var(--font-mono);font-size:12px;letter-spacing:0.28em;text-transform:uppercase;color:var(--faint);margin-bottom:14px;">Shorts &amp; Reels</div>
+        <h2 style="font-family:var(--font-display);font-weight:var(--display-weight);font-size:clamp(30px,4vw,56px);line-height:1;margin:0;color:var(--text);">From the set</h2>
+      </div>
+      <a href="https://instagram.com" target="_blank" rel="noopener" style="font-family:var(--font-mono);font-size:13px;letter-spacing:0.06em;color:var(--muted);">@photographer.film<span style="display:inline-block;width:11px;height:11px;vertical-align:-1px;margin-left:5px;background-color:currentColor;opacity:0.72;-webkit-mask:url(&quot;data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2024%2024'%3E%3Cpath%20d='M7%2017L17%207M8.5%207H17V15.5'%20fill='none'%20stroke='black'%20stroke-width='2.4'%20stroke-linecap='round'%20stroke-linejoin='round'/%3E%3C/svg%3E&quot;) center/contain no-repeat;mask:url(&quot;data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2024%2024'%3E%3Cpath%20d='M7%2017L17%207M8.5%207H17V15.5'%20fill='none'%20stroke='black'%20stroke-width='2.4'%20stroke-linecap='round'%20stroke-linejoin='round'/%3E%3C/svg%3E&quot;) center/contain no-repeat;"></span></a>
+    </div>
+  </div>
+  <div style="max-width:1360px;margin:0 auto;padding:4px clamp(18px,4vw,44px) 8px;display:flex;gap:16px;overflow-x:auto;scrollbar-width:thin;scrollbar-color:var(--border) transparent;">
+    <sc-for list="{{ shorts }}" as="s" hint-placeholder-count="6">
+      <button onClick="{{ s.onClick }}" style="flex:0 0 clamp(178px,18vw,232px);scroll-snap-align:start;cursor:pointer;padding:0;background:transparent;text-align:left;">
+        <div style="position:relative;aspect-ratio:9 / 16;border-radius:18px;overflow:hidden;border:1px solid var(--border);background:repeating-linear-gradient(135deg, var(--stripe) 0 11px, transparent 11px 22px), var(--surface);box-shadow:var(--shadow);transition:transform .25s ease,border-color .25s ease;" style-hover="transform:translateY(-4px);border-color:var(--accent);">
+          <span style="position:absolute;left:12px;top:12px;font-family:var(--font-mono);font-size:10px;letter-spacing:0.1em;color:#fff;background:var(--accent);color:var(--accent-ink);padding:3px 8px;border-radius:6px;font-weight:600;">{{ s.meta }}</span>
+          <div style="position:absolute;inset:0;background:linear-gradient(to top, rgba(0,0,0,0.7), transparent 45%);"></div>
+          <span style="position:absolute;left:50%;top:44%;transform:translate(-50%,-50%);width:46px;height:46px;border-radius:999px;background:rgba(0,0,0,0.4);border:1.5px solid rgba(255,255,255,0.8);color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;backdrop-filter:blur(4px);">▶</span>
+          <div style="position:absolute;left:13px;right:13px;bottom:13px;">
+            <div style="color:#fff;font-size:14px;font-weight:600;line-height:1.25;">{{ s.title }}</div>
+            <div style="font-family:var(--font-mono);font-size:10px;color:rgba(255,255,255,0.7);margin-top:5px;">{{ s.views }} views</div>
+          </div>
+        </div>
+      </button>
+    </sc-for>
+  </div>
+</section>
+
+<section id="cast" style="padding:clamp(64px,9vw,140px) 0;background:var(--bg);scroll-margin-top:74px;">
+  <div style="max-width:1360px;margin:0 auto;padding:0 clamp(18px,4vw,44px);">
+    <div style="font-family:var(--font-mono);font-size:12px;letter-spacing:0.28em;text-transform:uppercase;color:var(--faint);margin-bottom:14px;">The People</div>
+    <h2 style="font-family:var(--font-display);font-weight:var(--display-weight);font-size:clamp(30px,4vw,56px);line-height:1;margin:0 0 40px;color:var(--text);">Cast &amp; Crew</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:clamp(18px,2.4vw,30px);">
+      <sc-for list="{{ cast }}" as="p" hint-placeholder-count="5">
+        <div>
+          <div style="position:relative;aspect-ratio:4 / 5;border-radius:16px;overflow:hidden;border:1px solid var(--border);background:repeating-linear-gradient(135deg, var(--stripe) 0 11px, transparent 11px 22px), var(--surface-2);box-shadow:var(--shadow);">
+            <span style="position:absolute;left:13px;top:12px;font-family:var(--font-mono);font-size:11px;letter-spacing:0.1em;color:var(--faint);">portrait</span>
+            <span style="position:absolute;left:13px;bottom:12px;font-family:var(--font-mono);font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent);background:var(--accent-soft);padding:4px 9px;border-radius:6px;">{{ p.tag }}</span>
+          </div>
+          <div style="padding:14px 2px 0;">
+            <div style="font-family:var(--font-display);font-weight:var(--display-weight);font-size:24px;line-height:1.05;color:var(--text);">{{ p.name }}</div>
+            <div style="font-size:13px;color:var(--muted);margin-top:3px;">{{ p.role }}</div>
+            <div style="display:flex;gap:7px;flex-wrap:wrap;margin-top:12px;">
+              <sc-for list="{{ p.socials }}" as="s" hint-placeholder-count="0">
+                <a href="{{ s.h }}" target="_blank" rel="noopener" style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.04em;padding:5px 10px;border:1px solid var(--border);border-radius:7px;color:var(--muted);" style-hover="border-color:var(--accent);color:var(--text);">{{ s.l }}<span style="display:inline-block;width:11px;height:11px;vertical-align:-1px;margin-left:5px;background-color:currentColor;opacity:0.72;-webkit-mask:url(&quot;data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2024%2024'%3E%3Cpath%20d='M7%2017L17%207M8.5%207H17V15.5'%20fill='none'%20stroke='black'%20stroke-width='2.4'%20stroke-linecap='round'%20stroke-linejoin='round'/%3E%3C/svg%3E&quot;) center/contain no-repeat;mask:url(&quot;data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2024%2024'%3E%3Cpath%20d='M7%2017L17%207M8.5%207H17V15.5'%20fill='none'%20stroke='black'%20stroke-width='2.4'%20stroke-linecap='round'%20stroke-linejoin='round'/%3E%3C/svg%3E&quot;) center/contain no-repeat;"></span></a>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+    <div style="margin-top:clamp(40px,5vw,72px);padding-top:clamp(30px,4vw,48px);border-top:1px solid var(--border);">
+      <div style="font-family:var(--font-mono);font-size:12px;letter-spacing:0.24em;text-transform:uppercase;color:var(--faint);margin-bottom:24px;">Crew</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:0 clamp(30px,5vw,72px);">
+        <sc-for list="{{ crew }}" as="c" hint-placeholder-count="8">
+          <div style="display:flex;justify-content:space-between;align-items:baseline;gap:20px;padding:16px 0;border-bottom:1px solid var(--border);">
+            <span style="font-family:var(--font-mono);font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:var(--faint);">{{ c.role }}</span>
+            <span style="font-size:15px;color:var(--muted);font-style:italic;text-align:right;">{{ c.name }}</span>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer style="background:var(--bg-2);border-top:1px solid var(--border);padding:clamp(50px,7vw,90px) 0 40px;">
+  <div style="max-width:1360px;margin:0 auto;padding:0 clamp(18px,4vw,44px);display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:40px;align-items:start;">
+    <div>
+      <div style="font-family:var(--font-display);font-weight:800;text-transform:uppercase;letter-spacing:0.02em;font-size:22px;color:var(--text);">Photographer</div>
+      <p style="font-family:var(--font-display);font-style:italic;font-size:17px;color:var(--muted);margin:12px 0 20px;max-width:320px;">Some photographs cost everything.</p>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <div style="width:44px;height:44px;border-radius:10px;border:1px solid var(--border);background:repeating-linear-gradient(135deg, var(--stripe) 0 8px, transparent 8px 16px), var(--surface);"></div>
+        <span style="font-family:var(--font-mono);font-size:12px;letter-spacing:0.1em;color:var(--faint);">Production banner · placeholder</span>
+      </div>
+    </div>
+    <div>
+      <div style="font-family:var(--font-mono);font-size:12px;letter-spacing:0.2em;text-transform:uppercase;color:var(--faint);margin-bottom:16px;">Follow the film</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <sc-for list="{{ footerSocials }}" as="f" hint-placeholder-count="4">
+          <a href="{{ f.h }}" target="_blank" rel="noopener" style="font-size:13px;padding:9px 15px;border:1px solid var(--border);border-radius:999px;color:var(--muted);" style-hover="border-color:var(--accent);color:var(--text);">{{ f.l }}<span style="display:inline-block;width:11px;height:11px;vertical-align:-1px;margin-left:5px;background-color:currentColor;opacity:0.72;-webkit-mask:url(&quot;data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2024%2024'%3E%3Cpath%20d='M7%2017L17%207M8.5%207H17V15.5'%20fill='none'%20stroke='black'%20stroke-width='2.4'%20stroke-linecap='round'%20stroke-linejoin='round'/%3E%3C/svg%3E&quot;) center/contain no-repeat;mask:url(&quot;data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2024%2024'%3E%3Cpath%20d='M7%2017L17%207M8.5%207H17V15.5'%20fill='none'%20stroke='black'%20stroke-width='2.4'%20stroke-linecap='round'%20stroke-linejoin='round'/%3E%3C/svg%3E&quot;) center/contain no-repeat;"></span></a>
+        </sc-for>
+      </div>
+    </div>
+    <div>
+      <div style="font-family:var(--font-mono);font-size:12px;letter-spacing:0.2em;text-transform:uppercase;color:var(--faint);margin-bottom:16px;">Get notified</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <input placeholder="your email" style="flex:1;min-width:150px;padding:12px 15px;border-radius:10px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:14px;font-family:var(--font-body);outline:none;" />
+        <button onClick="{{ notify }}" style="padding:12px 20px;border-radius:10px;background:var(--accent);color:var(--accent-ink);font-weight:600;font-size:14px;cursor:pointer;">Notify me</button>
+      </div>
+      <p style="font-size:12px;color:var(--faint);margin:12px 0 0;line-height:1.5;">Get the first look at the trailer, booking dates and set exclusives.</p>
+    </div>
+  </div>
+  <div style="max-width:1360px;margin:clamp(40px,5vw,64px) auto 0;padding:24px clamp(18px,4vw,44px) 0;border-top:1px solid var(--border);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;">
+    <span style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.08em;color:var(--faint);">© 2026 Photographer · A motion picture · Certified U/A</span>
+    <span style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.08em;color:var(--faint);">All names, dates &amp; media are placeholders</span>
+  </div>
+</footer>
+
+<sc-if value="{{ modalOpen }}" hint-placeholder-val="{{ false }}">
+  <div onClick="{{ closeModal }}" style="position:fixed;inset:0;z-index:100;background:rgba(0,0,0,0.85);backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;padding:24px;animation:mfade .22s ease;">
+    <button onClick="{{ closeModal }}" aria-label="Close" style="position:absolute;top:22px;right:26px;width:44px;height:44px;border-radius:999px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.3);color:#fff;font-size:20px;cursor:pointer;">×</button>
+    <div onClick="{{ stop }}" style="{{ modalBoxStyle }}border-radius:16px;overflow:hidden;background:#000;border:1px solid rgba(255,255,255,0.14);box-shadow:0 40px 90px -30px rgba(0,0,0,0.9);">
+      <sc-if value="{{ modalIframe }}" hint-placeholder-val="{{ false }}">
+        <iframe src="{{ modalIframe }}" title="{{ modalTitle }}" allow="autoplay; encrypted-media; fullscreen" allowfullscreen="true" style="width:100%;height:100%;border:0;display:block;"></iframe>
+      </sc-if>
+      <sc-if value="{{ modalPlaceholder }}" hint-placeholder-val="{{ false }}">
+        <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:30px;text-align:center;background:repeating-linear-gradient(135deg, rgba(255,255,255,0.05) 0 12px, transparent 12px 24px), #0c0c0c;">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:rgba(255,255,255,0.5);">Placeholder video</div>
+          <div style="color:#fff;font-size:17px;max-width:360px;line-height:1.4;">Drop the real YouTube / Instagram link for "{{ modalTitle }}" here.</div>
+          <button onClick="{{ playSample }}" style="padding:12px 22px;border-radius:999px;background:#fff;color:#111;font-weight:600;font-size:14px;cursor:pointer;">▶ Play sample trailer</button>
+        </div>
+      </sc-if>
+    </div>
+  </div>
+</sc-if>
+
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;releaseDate&quot;: { &quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;2026-08-15&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Content&quot; },
+  &quot;heroVideoId&quot;: { &quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;0c78E4Fr-OI&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Content&quot; }
+}">
+class Component extends DCLogic {
+  state = {
+    look: this.props.look || 'forest-noir',
+    modal: null,
+    cd: { d: '--', h: '--', m: '--', s: '--' },
+    muted: true,
+    showNav: false
+  };
+
+  componentDidMount() {
+    this.tick();
+    this._iv = setInterval(() => this.tick(), 1000);
+    if (this.bg && !this.bg.src) { this.bg.src = this.bgUrl(); }
+    this._kick = () => { this.bgCmd('playVideo'); };
+    ['pointerdown', 'keydown', 'touchstart', 'wheel'].forEach((ev) => window.addEventListener(ev, this._kick, { passive: true }));
+    this._lastY = 0;
+    this._onScroll = (e) => {
+      const t = e.target;
+      const el = (t && t.nodeType === 1) ? t : (document.scrollingElement || document.documentElement);
+      if (!el || (el.scrollHeight - el.clientHeight) < 40) return;
+      const y = el.scrollTop || 0;
+      if (this._raf) { this._pendY = y; return; }
+      this._raf = requestAnimationFrame(() => { this._raf = null; this.updateNav(this._pendY != null ? this._pendY : y); this._pendY = null; });
+      this._pendY = y;
+    };
+    window.addEventListener('scroll', this._onScroll, true);
+    this._onMove = (e) => { const w = e.clientY < 56; if (w !== this._mouseWant) { this._mouseWant = w; this.applyNav(); } };
+    window.addEventListener('mousemove', this._onMove, { passive: true });
+  }
+  componentWillUnmount() {
+    clearInterval(this._iv);
+    this.lock(false);
+    if (this._kick) { ['pointerdown', 'keydown', 'touchstart', 'wheel'].forEach((ev) => window.removeEventListener(ev, this._kick)); }
+    if (this._onScroll) { window.removeEventListener('scroll', this._onScroll, true); }
+    if (this._onMove) { window.removeEventListener('mousemove', this._onMove); }
+    if (this._raf) { cancelAnimationFrame(this._raf); }
+  }
+  componentDidUpdate(prev) {
+    if (prev.look !== this.props.look && this.props.look && this.props.look !== this.state.look) {
+      this.setState({ look: this.props.look });
+    }
+  }
+
+  tick() {
+    const rd = (this.props.releaseDate || '2026-08-15') + 'T00:00:00+05:30';
+    let diff = Math.max(0, new Date(rd).getTime() - Date.now());
+    const d = Math.floor(diff / 86400000); diff -= d * 86400000;
+    const h = Math.floor(diff / 3600000); diff -= h * 3600000;
+    const m = Math.floor(diff / 60000); diff -= m * 60000;
+    const s = Math.floor(diff / 1000);
+    const p = (n) => String(n).padStart(2, '0');
+    this.setState({ cd: { d: String(d), h: p(h), m: p(m), s: p(s) } });
+  }
+
+  lock(on) {
+    try { document.documentElement.style.overflow = on ? 'hidden' : ''; } catch (e) {}
+    this.bgCmd(on ? 'pauseVideo' : 'playVideo');
+  }
+  bgUrl() {
+    const id = this.props.heroVideoId || '0c78E4Fr-OI';
+    return 'https://www.youtube.com/embed/' + id + '?autoplay=1&mute=1&controls=0&loop=1&playlist=' + id + '&modestbranding=1&rel=0&playsinline=1&enablejsapi=1&disablekb=1&fs=0&iv_load_policy=3';
+  }
+  bgCmd(func) {
+    try { const w = this.bg && this.bg.contentWindow; if (w) w.postMessage(JSON.stringify({ event: 'command', func: func, args: [] }), '*'); } catch (e) {}
+  }
+  toggleMute() {
+    const m = !this.state.muted;
+    this.setState({ muted: m });
+    this.bgCmd(m ? 'mute' : 'unMute');
+    this.bgCmd('playVideo');
+  }
+  updateNav(y) {
+    const last = this._lastY || 0;
+    if (y <= 64) this._scrollWant = false;
+    else if (y < last - 3) this._scrollWant = true;
+    else if (y > last + 3) this._scrollWant = false;
+    this._lastY = y;
+    this.applyNav();
+  }
+  applyNav() {
+    const show = !!(this._scrollWant || this._mouseWant);
+    if (show !== this.state.showNav) this.setState({ showNav: show });
+  }
+  setLook(k) { this.setState({ look: k }); }
+
+  openVideo(item) {
+    this.setState({ modal: { kind: 'video', videoId: item.id || null, title: item.title, placeholder: !item.id } });
+    this.lock(true);
+  }
+  openShort(item) {
+    this.setState({ modal: { kind: 'short', videoId: item.id || null, title: item.title, placeholder: !item.id } });
+    this.lock(true);
+  }
+  openTrailer() {
+    this.setState({ modal: { kind: 'video', videoId: this.props.heroVideoId || '0c78E4Fr-OI', title: 'Photographer — Official Trailer', placeholder: false } });
+    this.lock(true);
+  }
+  playSample() {
+    this.setState(s => ({ modal: { ...s.modal, videoId: this.props.heroVideoId || '0c78E4Fr-OI', placeholder: false, title: s.modal.title + ' (sample)' } }));
+  }
+  closeModal() { this.setState({ modal: null }); this.lock(false); }
+
+  onImgError(e) {
+    const t = e.target;
+    if (!t.dataset.fb) {
+      t.dataset.fb = '1';
+      const id = (t.getAttribute('src').match(/\/vi\/([^/]+)\//) || [])[1] || (this.props.heroVideoId || '0c78E4Fr-OI');
+      t.src = 'https://img.youtube.com/vi/' + id + '/hqdefault.jpg';
+    }
+  }
+
+  themeVars() {
+    const T = {
+      'forest-noir': '',
+      'charcoal-amber': "--bg:#0c0b0a;--bg-2:#100e0c;--surface:#17140f;--surface-2:#211b12;--text:#efe9df;--muted:#b6aa95;--faint:#7c7362;--border:rgba(224,182,110,0.16);--accent:oklch(0.8 0.12 78);--accent-ink:#17120a;--accent-soft:rgba(224,179,86,0.13);--stripe:rgba(224,179,86,0.07);--overlay:8,7,5;--grain:0.05;--shadow:0 24px 60px -40px rgba(0,0,0,0.85);--display-weight:700;--font-display:'Archivo',sans-serif;--font-body:'Hanken Grotesk',sans-serif;",
+      'editorial-mono': "--bg:#f4f2ee;--bg-2:#eae7e1;--surface:#ffffff;--surface-2:#f7f5f1;--text:#141312;--muted:#57544d;--faint:#8b887f;--border:rgba(20,19,18,0.16);--accent:oklch(0.55 0.2 27);--accent-ink:#ffffff;--accent-soft:rgba(192,54,43,0.09);--stripe:rgba(20,19,18,0.07);--overlay:20,19,17;--grain:0;--shadow:0 1px 2px rgba(20,19,18,0.05),0 30px 60px -42px rgba(20,19,18,0.4);--display-weight:700;--font-display:'Archivo',sans-serif;--font-body:'Hanken Grotesk',sans-serif;"
+    };
+    return T[this.state.look] || '';
+  }
+
+  renderVals() {
+    const vid = this.props.heroVideoId || '0c78E4Fr-OI';
+    const yt = (id, q) => 'https://img.youtube.com/vi/' + id + '/' + (q || 'maxresdefault') + '.jpg';
+
+    const trailers = [
+      { title: 'Official Trailer', kind: 'Trailer', dur: '2:14', id: vid, thumb: yt(vid) },
+      { title: 'Teaser', kind: 'Teaser', dur: '0:58', id: null },
+      { title: 'Into Mathikettan — Making Of', kind: 'Featurette', dur: '5:32', id: null },
+      { title: 'Motion Poster', kind: 'First Look', dur: '0:45', id: null },
+      { title: '"Kaadu" — Song Promo', kind: 'Music', dur: '3:10', id: null },
+      { title: 'In Conversation with the Cast', kind: 'Interview', dur: '12:04', id: null }
+    ].map(v => ({ ...v, striped: !v.thumb, cap: v.kind.toLowerCase(), onClick: () => this.openVideo(v), thumbRef: (el) => { if (el && v.thumb) el.src = v.thumb; } }));
+
+    const shorts = [
+      { title: 'First frame', meta: 'BTS', views: '204K' },
+      { title: "Building Veera's camera", meta: 'Props', views: '88K' },
+      { title: 'Forest at dawn', meta: 'On location', views: '156K' },
+      { title: 'Day 12 on set', meta: 'Diary', views: '73K' },
+      { title: 'The sound of Mathikettan', meta: 'Score', views: '49K' },
+      { title: 'Meet the team', meta: 'Cast', views: '132K' }
+    ].map(s => ({ ...s, onClick: () => this.openShort(s) }));
+
+    const ig = 'https://instagram.com', x = 'https://x.com', yr = 'https://youtube.com';
+    const cast = [
+      { name: 'Veera', role: 'The Photographer', tag: 'Lead', socials: [{ l: 'Instagram', h: ig }, { l: 'X', h: x }, { l: 'YouTube', h: yr }] },
+      { name: 'Kani', role: 'The Guide', tag: 'Lead', socials: [{ l: 'Instagram', h: ig }, { l: 'X', h: x }] },
+      { name: 'Ravindran', role: 'The Rival', tag: 'Supporting', socials: [] },
+      { name: 'Thangam', role: 'The Mother', tag: 'Supporting', socials: [] },
+      { name: 'The Curator', role: 'Gallery Owner', tag: 'Supporting', socials: [] }
+    ];
+
+    const crew = [
+      { role: 'Written & Directed by', name: 'to be announced' },
+      { role: 'Produced by', name: 'to be announced' },
+      { role: 'Director of Photography', name: 'to be announced' },
+      { role: 'Original Score', name: 'to be announced' },
+      { role: 'Editor', name: 'to be announced' },
+      { role: 'Production Design', name: 'to be announced' },
+      { role: 'Sound Design', name: 'to be announced' },
+      { role: 'Costume Design', name: 'to be announced' }
+    ];
+
+    const active = 'padding:7px 13px;border-radius:999px;border:1px solid var(--accent);background:var(--accent);color:var(--accent-ink);font-family:var(--font-body);font-size:12px;font-weight:600;cursor:pointer;letter-spacing:0.01em;white-space:nowrap;';
+    const idle = 'padding:7px 13px;border-radius:999px;border:1px solid transparent;background:transparent;color:var(--muted);font-family:var(--font-body);font-size:12px;font-weight:600;cursor:pointer;letter-spacing:0.01em;white-space:nowrap;';
+    const looks = [
+      { key: 'forest-noir', label: 'Forest Noir' },
+      { key: 'charcoal-amber', label: 'Charcoal & Amber' },
+      { key: 'editorial-mono', label: 'Editorial' }
+    ].map(o => ({ ...o, style: this.state.look === o.key ? active : idle, onClick: () => this.setLook(o.key) }));
+
+    const m = this.state.modal;
+    const box = m && m.kind === 'short'
+      ? 'position:relative;height:min(84vh,760px);aspect-ratio:9 / 16;'
+      : 'position:relative;width:min(94vw,980px);aspect-ratio:16 / 9;';
+
+    return {
+      themeVars: this.themeVars(),
+      looks,
+      bgRef: (this._bgRef || (this._bgRef = (el) => { this.bg = el; if (el && !el.src) { el.src = this.bgUrl(); } })),
+      toggleMute: () => this.toggleMute(),
+      muted: this.state.muted,
+      soundOn: !this.state.muted,
+      navTransform: this.state.showNav ? 'translateY(0)' : 'translateY(-100%)',
+      navOpacity: this.state.showNav ? '1' : '0',
+      navPE: this.state.showNav ? 'auto' : 'none',
+      navLinks: [
+        { l: 'Trailer', h: '#top' }, { l: 'Story', h: '#story' }, { l: 'Tickets', h: '#tickets' },
+        { l: 'Videos', h: '#videos' }, { l: 'Shorts', h: '#shorts' }, { l: 'Cast', h: '#cast' }
+      ],
+      cities: ['Chennai', 'Bengaluru', 'Hyderabad', 'Kochi', 'Mumbai', 'Coimbatore'],
+      partners: [{ l: 'BookMyShow', h: 'https://in.bookmyshow.com' }, { l: 'PVR INOX', h: 'https://www.pvrinox.com' }],
+      footerSocials: [{ l: 'Instagram', h: ig }, { l: 'YouTube', h: yr }, { l: 'X', h: x }, { l: 'Facebook', h: 'https://facebook.com' }],
+      trailers, shorts, cast, crew,
+      heroImg: yt(vid),
+      cd: this.state.cd,
+      onImgError: (e) => this.onImgError(e),
+      openTrailer: () => this.openTrailer(),
+      notify: () => { try { window.alert('You\u2019ll be notified when booking opens for Photographer.'); } catch (e) {} },
+      modalOpen: !!m,
+      modalBoxStyle: box,
+      modalIframe: m && m.videoId ? 'https://www.youtube-nocookie.com/embed/' + m.videoId + '?autoplay=1&rel=0&modestbranding=1' : null,
+      modalPlaceholder: m ? !!m.placeholder : false,
+      modalTitle: m ? m.title : '',
+      closeModal: () => this.closeModal(),
+      playSample: () => this.playSample(),
+      stop: (e) => e.stopPropagation()
+    };
+  }
+}
+</script>
+</body>
+</html>
