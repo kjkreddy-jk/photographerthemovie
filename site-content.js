@@ -4,7 +4,7 @@
   // Campaign editors: update approved release, media, people and outbound-link data here.
   const content = {
     build: {
-      version: '1.4.0'
+      version: '1.5.0'
     },
     film: {
       title: 'Photographer',

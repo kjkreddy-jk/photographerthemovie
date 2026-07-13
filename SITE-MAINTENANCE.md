@@ -23,6 +23,8 @@ Shared focus, accessibility, reset and motion styles live in `site.css`. Keep se
 
 For a release, update `VERSION`, the matching build version in `site-content.js`, the HTML `site-version`, the theme version, and `CHANGELOG.md`. The verification command rejects mismatches.
 
+Run `scripts/check-render.ps1` for interaction and DOM accessibility coverage and `scripts/check-lighthouse.ps1` for the Lighthouse accessibility gate. GitHub repeats both checks through `.github/workflows/site-quality.yml` on pushes and pull requests.
+
 ## Metadata limitation
 
 Social crawlers generally do not execute `site-content.js`. When the confirmed release date, canonical URL, trailer ID, or share artwork changes, also update the static Open Graph, Twitter, and JSON-LD values near the top of `index.html`. The maintenance comment there marks the relevant block.

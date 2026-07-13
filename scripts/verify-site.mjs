@@ -17,6 +17,7 @@ const contentSource = read('site-content.js');
 const resourceSource = read('component-resources.js');
 const supportSource = read('support.js');
 const css = read('site.css');
+const qualityWorkflow = read('.github/workflows/site-quality.yml');
 const version = read('VERSION').trim();
 const componentFiles = [
   'HeaderSection.dc.html', 'HeroSection.dc.html', 'ReleaseSection.dc.html',
@@ -76,6 +77,10 @@ assert(html.includes("this.state.mobileNavOpen && e.key === 'Escape'"), 'mobile 
 assert(html.includes(`<meta name="site-version" content="${version}">`), 'HTML site-version does not match VERSION');
 assert(html.includes('<link rel="stylesheet" href="./site.css">'), 'site.css is not linked');
 assert(fs.existsSync(path.join(root, 'site-content.js')) && fs.existsSync(path.join(root, 'component-resources.js')) && fs.existsSync(path.join(root, 'support.js')) && fs.existsSync(path.join(root, 'site.css')), 'a linked local asset is missing');
+for (const command of ['verify-site.mjs', 'check-render.ps1', 'build-theme.ps1 -CheckOnly', 'check-lighthouse.ps1']) {
+  assert(qualityWorkflow.includes(command), `CI quality workflow is missing ${command}`);
+}
+assert(fs.existsSync(path.join(root, 'scripts', 'assert-lighthouse.mjs')), 'Lighthouse score assertion is missing');
 for (const file of componentFiles) {
   const name = path.basename(file, '.dc.html');
   assert(html.includes(`<dc-import name="${name}"`), `index.html does not import ${name}`);

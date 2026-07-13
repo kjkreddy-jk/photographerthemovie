@@ -14,9 +14,9 @@ Statuses: `DONE`, `IN PROGRESS`, `NEXT`, `BLOCKED`, `LATER`.
 | DONE | Extract repeated inline component styles | Structural, CSS and keyboard-related markup checks pass |
 | DONE | Split major sections into importable components | Header, content sections and footer are independently importable; anchors, bindings and modal behavior remain unchanged |
 | DONE | Responsive mobile navigation | Keyboard, touch-size, Escape handling and reduced-motion checks pass |
-| LATER | Responsive local image pipeline | AVIF/WebP fallbacks, dimensions and lazy loading verified |
+| BLOCKED | Responsive local image pipeline | Requires approved local poster, still and portrait source files before variants can be generated |
 | BLOCKED | Real notification subscription | Requires provider choice, privacy copy and API credentials |
-| LATER | CMS or structured editorial workflow | Content validation and preview workflow agreed |
-| LATER | Automated browser accessibility and Lighthouse checks | Requires an available browser runner or CI configuration |
+| NEXT | CMS or structured editorial workflow | Editorial source format, validation and preview workflow agreed |
+| DONE | Automated browser accessibility and Lighthouse checks | Rendered accessibility guards and Lighthouse run locally and in CI |
 
 Update this table in the same commit whenever an item changes status.

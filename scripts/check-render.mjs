@@ -39,6 +39,20 @@ socket.onmessage = event => {
       };
       const toggle = pick('.mobile-nav-toggle');
       const toggleRect = toggle?.getBoundingClientRect();
+      const headings = [...document.querySelectorAll('h1, h2, h3, h4, h5, h6')];
+      const headingLevels = headings.map(heading => Number(heading.tagName.slice(1)));
+      const headingOrderValid = headingLevels[0] === 1 && headingLevels.every((level, index) => index === 0 || level <= headingLevels[index - 1] + 1);
+      const accessibleName = element => (
+        element.getAttribute('aria-label')
+        || (element.getAttribute('aria-labelledby') && document.getElementById(element.getAttribute('aria-labelledby'))?.textContent)
+        || element.labels?.[0]?.textContent
+        || element.textContent
+        || element.getAttribute('title')
+        || ''
+      ).trim();
+      const unlabeledControls = [...document.querySelectorAll('a[href], button, input, select, textarea')]
+        .filter(element => !accessibleName(element))
+        .map(element => element.tagName.toLowerCase());
       return {
         ready: document.readyState,
         contentLoaded: !!window.PHOTOGRAPHER_SITE_CONTENT,
@@ -66,7 +80,18 @@ socket.onmessage = event => {
         mobileToggleHeight: toggleRect?.height,
         mobileExpanded: toggle?.getAttribute('aria-expanded'),
         mobileNavVisibility: style('#primary-navigation')?.visibility,
-        mobileNavLinks: document.querySelectorAll('#primary-navigation .site-nav-link').length
+        mobileNavLinks: document.querySelectorAll('#primary-navigation .site-nav-link').length,
+        landmarkCounts: {
+          header: document.querySelectorAll('header').length,
+          nav: document.querySelectorAll('nav[aria-label]').length,
+          main: document.querySelectorAll('main').length,
+          footer: document.querySelectorAll('footer').length
+        },
+        h1Count: document.querySelectorAll('h1').length,
+        headingOrderValid,
+        unlabeledControls,
+        imagesMissingAlt: document.querySelectorAll('img:not([alt])').length,
+        iframesMissingTitle: [...document.querySelectorAll('iframe')].filter(frame => !frame.getAttribute('title')).length
       };
     })()`), 2500);
     return;
@@ -102,7 +127,16 @@ socket.onmessage = event => {
       && initial.mobileToggleHeight >= 44
       && initial.mobileExpanded === 'false'
       && initial.mobileNavVisibility === 'hidden'
-      && initial.mobileNavLinks === 6;
+      && initial.mobileNavLinks === 6
+      && initial.landmarkCounts.header === 1
+      && initial.landmarkCounts.nav === 1
+      && initial.landmarkCounts.main === 1
+      && initial.landmarkCounts.footer === 1
+      && initial.h1Count === 1
+      && initial.headingOrderValid
+      && initial.unlabeledControls.length === 0
+      && initial.imagesMissingAlt === 0
+      && initial.iframesMissingTitle === 0;
     if (!initialPassed) {
       finish(false);
       return;

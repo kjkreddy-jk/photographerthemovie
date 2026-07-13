@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.5.0 — 2026-07-13
+
+- Added GitHub Actions quality gates for source validation, rendered interactions, WordPress package synchronization and Lighthouse.
+- Expanded the rendered audit to cover landmarks, heading order, accessible control names, image alternatives and frame titles.
+- Added a pinned Lighthouse 13.3.0 runner with repository-owned accessibility, best-practices and SEO score assertions.
+- Fixed the shared low-contrast text token across all themes and added an inline favicon to prevent avoidable console errors.
+
 ## 1.4.0 — 2026-07-13
 
 - Completed the modular rollout for the header, hero, release, story, tickets, videos, shorts, cast and footer sections.

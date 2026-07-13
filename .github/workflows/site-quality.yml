@@ -1,0 +1,40 @@
+name: Site quality
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: windows-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          package-manager-cache: false
+
+      - name: Verify source and content
+        shell: pwsh
+        run: node .\scripts\verify-site.mjs
+
+      - name: Verify rendered interactions and accessibility
+        shell: pwsh
+        run: .\scripts\check-render.ps1
+
+      - name: Verify synchronized WordPress package
+        shell: pwsh
+        run: .\scripts\build-theme.ps1 -CheckOnly
+
+      - name: Run Lighthouse quality gates
+        shell: pwsh
+        run: .\scripts\check-lighthouse.ps1

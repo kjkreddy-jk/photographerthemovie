@@ -11,6 +11,7 @@ The live domain currently serves the `photographer-official-theme` WordPress the
    ```powershell
    node .\scripts\verify-site.mjs
    .\scripts\check-render.ps1
+   .\scripts\check-lighthouse.ps1
    .\scripts\build-theme.ps1
    .\scripts\build-theme.ps1 -CheckOnly
    ```
@@ -18,7 +19,7 @@ The live domain currently serves the `photographer-official-theme` WordPress the
 4. Review `git diff`, commit the complete release, and create a matching tag:
 
    ```powershell
-   git add VERSION CHANGELOG.md PROJECT-TODO.md PUBLISHING.md SITE-MAINTENANCE.md index.html site.css site-content.js component-resources.js *.dc.html scripts wp-theme
+   git add .github .gitignore VERSION CHANGELOG.md PROJECT-TODO.md PUBLISHING.md SITE-MAINTENANCE.md index.html site.css site-content.js component-resources.js *.dc.html scripts wp-theme
    $version = (Get-Content -Raw .\VERSION).Trim()
    git commit -m "Release website v$version"
    git tag -a "v$version" -m "Website v$version"
@@ -26,7 +27,7 @@ The live domain currently serves the `photographer-official-theme` WordPress the
    git push origin "v$version"
    ```
 
-GitHub documents `git push` as the operation that transfers local commits or tags to the configured remote: <https://docs.github.com/en/get-started/using-git/pushing-commits-to-a-remote-repository>.
+Pushes and pull requests also run `.github/workflows/site-quality.yml`. This quality workflow validates the release but intentionally does not publish WordPress. GitHub documents `git push` as the operation that transfers local commits or tags to the configured remote: <https://docs.github.com/en/get-started/using-git/pushing-commits-to-a-remote-repository>.
 
 ## Publish to WordPress
 
