@@ -51,6 +51,24 @@ assert(html.includes(`<meta name="site-version" content="${version}">`), 'HTML s
 assert(html.includes('<link rel="stylesheet" href="./site.css">'), 'site.css is not linked');
 assert(fs.existsSync(path.join(root, 'site-content.js')) && fs.existsSync(path.join(root, 'support.js')) && fs.existsSync(path.join(root, 'site.css')), 'a linked local asset is missing');
 assert((css.match(/{/g) || []).length === (css.match(/}/g) || []).length, 'site.css contains unbalanced braces');
+const reusableClasses = [
+  'site-container', 'media-heading-row', 'section-kicker', 'section-heading',
+  'release-badge', 'countdown-unit', 'countdown-value', 'countdown-label',
+  'fact-row', 'fact-label', 'fact-value', 'story-copy', 'footer-heading', 'footer-meta', 'external-icon'
+];
+for (const className of reusableClasses) {
+  assert(css.includes(`.${className}{`), `site.css is missing .${className}`);
+  assert(new RegExp(`class="[^"]*\\b${className}\\b`).test(html), `index.html does not use .${className}`);
+}
+const extractedStyles = [
+  'min-width:66px;text-align:center;border:1px solid var(--border);background:var(--surface)',
+  'font-family:var(--font-mono);font-size:28px;font-weight:600;color:var(--text);line-height:1;',
+  'display:flex;justify-content:space-between;gap:16px;padding-bottom:12px;border-bottom:1px solid var(--border);',
+  'display:inline-block;width:11px;height:11px;vertical-align:-1px;margin-left:5px;background-color:currentColor;opacity:0.72;'
+];
+for (const declaration of extractedStyles) {
+  assert(!html.includes(`style="${declaration}`), `an extracted inline declaration returned: ${declaration}`);
+}
 
 const ids = [...html.matchAll(/\bid="([^"]+)"/g)].map(match => match[1]);
 assert(new Set(ids).size === ids.length, 'index.html contains duplicate IDs');

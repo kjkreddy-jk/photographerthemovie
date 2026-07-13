@@ -8,7 +8,7 @@
 <meta name="description" content="Official website for Photographer, a forest-set drama thriller following an obsessive artist chasing a life-changing image in Mathikettan Solai.">
 <meta name="robots" content="index,follow">
 <meta name="theme-color" content="#0a0e0b">
-<meta name="site-version" content="1.1.0">
+<meta name="site-version" content="1.2.0">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Photographer | Official Movie Site">
 <meta property="og:description" content="A forest-set drama thriller about obsession, ambition and the image that can change everything.">
@@ -93,14 +93,14 @@
 
 <section id="release" style="background:var(--bg);border-bottom:1px solid var(--border);padding:clamp(30px,4.5vw,54px) 0;scroll-margin-top:74px;">
   <h2 class="sr-only">Release information</h2>
-  <div style="max-width:1360px;margin:0 auto;padding:0 clamp(18px,4vw,44px);display:flex;justify-content:space-between;align-items:center;gap:clamp(28px,5vw,64px);flex-wrap:wrap;">
+  <div class="site-container" style="display:flex;justify-content:space-between;align-items:center;gap:clamp(28px,5vw,64px);flex-wrap:wrap;">
     <div style="display:flex;flex-direction:column;gap:22px;min-width:min(100%,300px);">
       <div style="display:flex;gap:9px;flex-wrap:wrap;">
-        <span style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.16em;padding:6px 13px;border:1px solid var(--border);border-radius:999px;color:var(--muted);">{{ releaseYear }}</span>
-        <span style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.16em;padding:6px 13px;border:1px solid var(--border);border-radius:999px;color:var(--muted);">{{ contentRating }}</span>
-        <span style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.16em;padding:6px 13px;border:1px solid var(--border);border-radius:999px;color:var(--muted);">DRAMA</span>
-        <span style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.16em;padding:6px 13px;border:1px solid var(--border);border-radius:999px;color:var(--muted);">THRILLER</span>
-        <span style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.16em;padding:6px 13px;border:1px solid var(--border);border-radius:999px;color:var(--muted);">MYSTERY</span>
+        <span class="release-badge">{{ releaseYear }}</span>
+        <span class="release-badge">{{ contentRating }}</span>
+        <span class="release-badge">DRAMA</span>
+        <span class="release-badge">THRILLER</span>
+        <span class="release-badge">MYSTERY</span>
       </div>
       <div style="display:flex;gap:14px;flex-wrap:wrap;align-items:center;">
         <a href="#tickets" style="padding:18px 40px;border-radius:999px;background:var(--accent);color:var(--accent-ink);font-weight:700;font-size:17px;letter-spacing:0.02em;">Book Tickets</a>
@@ -110,21 +110,21 @@
     <div>
       <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.24em;text-transform:uppercase;color:var(--accent);margin-bottom:14px;">In cinemas · <time datetime="{{ releaseDateIso }}">{{ releaseDateLong }}</time></div>
       <div role="timer" aria-label="Time remaining until theatrical release" style="display:flex;gap:10px;">
-        <div style="min-width:66px;text-align:center;border:1px solid var(--border);background:var(--surface);border-radius:14px;padding:12px 10px;">
-          <div style="font-family:var(--font-mono);font-size:28px;font-weight:600;color:var(--text);line-height:1;">{{ cd.d }}</div>
-          <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:0.2em;color:var(--muted);text-transform:uppercase;margin-top:6px;">Days</div>
+        <div class="countdown-unit">
+          <div class="countdown-value">{{ cd.d }}</div>
+          <div class="countdown-label">Days</div>
         </div>
-        <div style="min-width:66px;text-align:center;border:1px solid var(--border);background:var(--surface);border-radius:14px;padding:12px 10px;">
-          <div style="font-family:var(--font-mono);font-size:28px;font-weight:600;color:var(--text);line-height:1;">{{ cd.h }}</div>
-          <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:0.2em;color:var(--muted);text-transform:uppercase;margin-top:6px;">Hrs</div>
+        <div class="countdown-unit">
+          <div class="countdown-value">{{ cd.h }}</div>
+          <div class="countdown-label">Hrs</div>
         </div>
-        <div style="min-width:66px;text-align:center;border:1px solid var(--border);background:var(--surface);border-radius:14px;padding:12px 10px;">
-          <div style="font-family:var(--font-mono);font-size:28px;font-weight:600;color:var(--text);line-height:1;">{{ cd.m }}</div>
-          <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:0.2em;color:var(--muted);text-transform:uppercase;margin-top:6px;">Min</div>
+        <div class="countdown-unit">
+          <div class="countdown-value">{{ cd.m }}</div>
+          <div class="countdown-label">Min</div>
         </div>
-        <div style="min-width:66px;text-align:center;border:1px solid var(--border);background:var(--surface);border-radius:14px;padding:12px 10px;">
-          <div style="font-family:var(--font-mono);font-size:28px;font-weight:600;color:var(--text);line-height:1;">{{ cd.s }}</div>
-          <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:0.2em;color:var(--muted);text-transform:uppercase;margin-top:6px;">Sec</div>
+        <div class="countdown-unit">
+          <div class="countdown-value">{{ cd.s }}</div>
+          <div class="countdown-label">Sec</div>
         </div>
       </div>
     </div>
@@ -132,20 +132,20 @@
 </section>
 
 <section id="story" style="padding:clamp(64px,9vw,150px) 0;background:var(--bg);scroll-margin-top:74px;">
-  <div style="max-width:1360px;margin:0 auto;padding:0 clamp(18px,4vw,44px);display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:clamp(36px,6vw,90px);align-items:start;">
+  <div class="site-container" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:clamp(36px,6vw,90px);align-items:start;">
     <div>
       <div style="font-family:var(--font-mono);font-size:12px;letter-spacing:0.28em;text-transform:uppercase;color:var(--faint);margin-bottom:22px;">The Story</div>
       <h2 style="font-family:var(--font-display);font-weight:var(--display-weight);font-size:clamp(30px,4vw,58px);line-height:1.04;margin:0;color:var(--text);">A vision worth<br />losing everything for.</h2>
       <div style="margin-top:34px;display:grid;gap:14px;max-width:340px;">
-        <div style="display:flex;justify-content:space-between;gap:16px;padding-bottom:12px;border-bottom:1px solid var(--border);"><span style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--faint);">Genre</span><span style="font-size:14px;color:var(--muted);">Drama · Thriller · Mystery</span></div>
-        <div style="display:flex;justify-content:space-between;gap:16px;padding-bottom:12px;border-bottom:1px solid var(--border);"><span style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--faint);">Setting</span><span style="font-size:14px;color:var(--muted);">Mathikettan Solai</span></div>
-        <div style="display:flex;justify-content:space-between;gap:16px;padding-bottom:12px;border-bottom:1px solid var(--border);"><span style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--faint);">Release</span><span style="font-size:14px;color:var(--muted);"><time datetime="{{ releaseDateIso }}">{{ releaseDateShort }}</time> · Theatres</span></div>
+        <div class="fact-row"><span class="fact-label">Genre</span><span class="fact-value">Drama · Thriller · Mystery</span></div>
+        <div class="fact-row"><span class="fact-label">Setting</span><span class="fact-value">Mathikettan Solai</span></div>
+        <div class="fact-row"><span class="fact-label">Release</span><span class="fact-value"><time datetime="{{ releaseDateIso }}">{{ releaseDateShort }}</time> · Theatres</span></div>
       </div>
     </div>
     <div style="max-width:600px;">
-      <p style="font-size:clamp(17px,1.5vw,21px);line-height:1.75;color:var(--muted);margin:0 0 22px;"><span style="color:var(--text);font-weight:600;">Veera</span> is a troubled, obsessive photographer determined to prove his worth in a world that has long dismissed him.</p>
-      <p style="font-size:clamp(17px,1.5vw,21px);line-height:1.75;color:var(--muted);margin:0 0 22px;">Driven by ambition and haunted by a painful past, he ventures deep into <span style="color:var(--text);">Mathikettan Solai</span> — a mysterious reserve forest — to capture a rare and elusive natural phenomenon that could change his life forever.</p>
-      <p style="font-size:clamp(17px,1.5vw,21px);line-height:1.75;color:var(--muted);margin:0;">But the deeper he goes, the more the forest begins to photograph him back.</p>
+      <p class="story-copy"><span style="color:var(--text);font-weight:600;">Veera</span> is a troubled, obsessive photographer determined to prove his worth in a world that has long dismissed him.</p>
+      <p class="story-copy">Driven by ambition and haunted by a painful past, he ventures deep into <span style="color:var(--text);">Mathikettan Solai</span> — a mysterious reserve forest — to capture a rare and elusive natural phenomenon that could change his life forever.</p>
+      <p class="story-copy">But the deeper he goes, the more the forest begins to photograph him back.</p>
       <div style="margin-top:30px;padding:20px 24px;border-left:2px solid var(--accent);background:var(--accent-soft);border-radius:0 12px 12px 0;">
         <p style="font-family:var(--font-display);font-style:italic;font-size:clamp(19px,1.8vw,24px);line-height:1.4;margin:0;color:var(--text);">"He came to take one picture. The forest had other plans."</p>
         <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--faint);margin-top:12px;">Director's note coming with the full media launch</div>
@@ -167,7 +167,7 @@
     <div style="display:flex;gap:13px;flex-wrap:wrap;justify-content:center;margin-top:34px;">
       <button type="button" onClick="{{ notify }}" style="padding:19px 38px;border-radius:999px;background:var(--accent);color:var(--accent-ink);font-weight:700;font-size:17px;cursor:pointer;">Get Notified When Booking Opens</button>
       <sc-for list="{{ partners }}" as="p" hint-placeholder-count="2">
-        <a href="{{ p.h }}" target="_blank" rel="noopener noreferrer" style="padding:19px 34px;border-radius:999px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-weight:600;font-size:17px;display:inline-flex;align-items:center;gap:8px;" style-hover="border-color:var(--accent);">{{ p.l }}<span style="display:inline-block;width:11px;height:11px;vertical-align:-1px;margin-left:5px;background-color:currentColor;opacity:0.72;-webkit-mask:url(&quot;data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2024%2024'%3E%3Cpath%20d='M7%2017L17%207M8.5%207H17V15.5'%20fill='none'%20stroke='black'%20stroke-width='2.4'%20stroke-linecap='round'%20stroke-linejoin='round'/%3E%3C/svg%3E&quot;) center/contain no-repeat;mask:url(&quot;data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2024%2024'%3E%3Cpath%20d='M7%2017L17%207M8.5%207H17V15.5'%20fill='none'%20stroke='black'%20stroke-width='2.4'%20stroke-linecap='round'%20stroke-linejoin='round'/%3E%3C/svg%3E&quot;) center/contain no-repeat;"></span></a>
+        <a href="{{ p.h }}" target="_blank" rel="noopener noreferrer" style="padding:19px 34px;border-radius:999px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-weight:600;font-size:17px;display:inline-flex;align-items:center;gap:8px;" style-hover="border-color:var(--accent);">{{ p.l }}<span class="external-icon"></span></a>
       </sc-for>
     </div>
     <p style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.1em;color:var(--faint);margin:22px 0 0;">Pre-booking partners · dates subject to change</p>
@@ -175,11 +175,11 @@
 </section>
 
 <section id="videos" style="padding:clamp(56px,8vw,120px) 0;background:var(--bg);scroll-margin-top:74px;">
-  <div style="max-width:1360px;margin:0 auto;padding:0 clamp(18px,4vw,44px);">
-    <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:30px;">
+  <div class="site-container">
+    <div class="media-heading-row">
       <div>
-        <div style="font-family:var(--font-mono);font-size:12px;letter-spacing:0.28em;text-transform:uppercase;color:var(--faint);margin-bottom:14px;">Watch</div>
-        <h2 style="font-family:var(--font-display);font-weight:var(--display-weight);font-size:clamp(30px,4vw,56px);line-height:1;margin:0;color:var(--text);">Trailers &amp; Videos</h2>
+        <div class="section-kicker">Watch</div>
+        <h2 class="section-heading">Trailers &amp; Videos</h2>
       </div>
       <span style="font-family:var(--font-mono);font-size:12px;letter-spacing:0.1em;color:var(--faint);">scroll →</span>
     </div>
@@ -208,13 +208,13 @@
 </section>
 
 <section id="shorts" style="padding:clamp(56px,8vw,120px) 0;background:var(--bg-2);border-top:1px solid var(--border);scroll-margin-top:74px;">
-  <div style="max-width:1360px;margin:0 auto;padding:0 clamp(18px,4vw,44px);">
-    <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:30px;">
+  <div class="site-container">
+    <div class="media-heading-row">
       <div>
-        <div style="font-family:var(--font-mono);font-size:12px;letter-spacing:0.28em;text-transform:uppercase;color:var(--faint);margin-bottom:14px;">Shorts &amp; Reels</div>
-        <h2 style="font-family:var(--font-display);font-weight:var(--display-weight);font-size:clamp(30px,4vw,56px);line-height:1;margin:0;color:var(--text);">From the set</h2>
+        <div class="section-kicker">Shorts &amp; Reels</div>
+        <h2 class="section-heading">From the set</h2>
       </div>
-      <a href="{{ filmInstagramHref }}" target="_blank" rel="noopener noreferrer" style="font-family:var(--font-mono);font-size:13px;letter-spacing:0.06em;color:var(--muted);">@photographerthemovie<span style="display:inline-block;width:11px;height:11px;vertical-align:-1px;margin-left:5px;background-color:currentColor;opacity:0.72;-webkit-mask:url(&quot;data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2024%2024'%3E%3Cpath%20d='M7%2017L17%207M8.5%207H17V15.5'%20fill='none'%20stroke='black'%20stroke-width='2.4'%20stroke-linecap='round'%20stroke-linejoin='round'/%3E%3C/svg%3E&quot;) center/contain no-repeat;mask:url(&quot;data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2024%2024'%3E%3Cpath%20d='M7%2017L17%207M8.5%207H17V15.5'%20fill='none'%20stroke='black'%20stroke-width='2.4'%20stroke-linecap='round'%20stroke-linejoin='round'/%3E%3C/svg%3E&quot;) center/contain no-repeat;"></span></a>
+      <a href="{{ filmInstagramHref }}" target="_blank" rel="noopener noreferrer" style="font-family:var(--font-mono);font-size:13px;letter-spacing:0.06em;color:var(--muted);">@photographerthemovie<span class="external-icon"></span></a>
     </div>
   </div>
   <div tabindex="0" aria-label="Shorts and reels carousel" style="max-width:1360px;margin:0 auto;padding:4px clamp(18px,4vw,44px) 8px;display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x proximity;scrollbar-width:thin;scrollbar-color:var(--border) transparent;">
@@ -235,9 +235,9 @@
 </section>
 
 <section id="cast" style="padding:clamp(64px,9vw,140px) 0;background:var(--bg);scroll-margin-top:74px;">
-  <div style="max-width:1360px;margin:0 auto;padding:0 clamp(18px,4vw,44px);">
-    <div style="font-family:var(--font-mono);font-size:12px;letter-spacing:0.28em;text-transform:uppercase;color:var(--faint);margin-bottom:14px;">The People</div>
-    <h2 style="font-family:var(--font-display);font-weight:var(--display-weight);font-size:clamp(30px,4vw,56px);line-height:1;margin:0 0 40px;color:var(--text);">Cast &amp; Crew</h2>
+  <div class="site-container">
+    <div class="section-kicker">The People</div>
+    <h2 class="section-heading" style="margin-bottom:40px;">Cast &amp; Crew</h2>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:clamp(18px,2.4vw,30px);">
       <sc-for list="{{ cast }}" as="p" hint-placeholder-count="5">
         <div>
@@ -250,7 +250,7 @@
             <div style="font-size:13px;color:var(--muted);margin-top:3px;">{{ p.role }}</div>
             <div style="display:flex;gap:7px;flex-wrap:wrap;margin-top:12px;">
               <sc-for list="{{ p.socials }}" as="s" hint-placeholder-count="0">
-                <a href="{{ s.h }}" target="_blank" rel="noopener noreferrer" style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.04em;padding:5px 10px;border:1px solid var(--border);border-radius:7px;color:var(--muted);" style-hover="border-color:var(--accent);color:var(--text);">{{ s.l }}<span style="display:inline-block;width:11px;height:11px;vertical-align:-1px;margin-left:5px;background-color:currentColor;opacity:0.72;-webkit-mask:url(&quot;data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2024%2024'%3E%3Cpath%20d='M7%2017L17%207M8.5%207H17V15.5'%20fill='none'%20stroke='black'%20stroke-width='2.4'%20stroke-linecap='round'%20stroke-linejoin='round'/%3E%3C/svg%3E&quot;) center/contain no-repeat;mask:url(&quot;data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2024%2024'%3E%3Cpath%20d='M7%2017L17%207M8.5%207H17V15.5'%20fill='none'%20stroke='black'%20stroke-width='2.4'%20stroke-linecap='round'%20stroke-linejoin='round'/%3E%3C/svg%3E&quot;) center/contain no-repeat;"></span></a>
+                <a href="{{ s.h }}" target="_blank" rel="noopener noreferrer" style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.04em;padding:5px 10px;border:1px solid var(--border);border-radius:7px;color:var(--muted);" style-hover="border-color:var(--accent);color:var(--text);">{{ s.l }}<span class="external-icon"></span></a>
               </sc-for>
             </div>
           </div>
@@ -273,7 +273,7 @@
 
 </main>
 <footer style="background:var(--bg-2);border-top:1px solid var(--border);padding:clamp(50px,7vw,90px) 0 40px;">
-  <div style="max-width:1360px;margin:0 auto;padding:0 clamp(18px,4vw,44px);display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:40px;align-items:start;">
+  <div class="site-container" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:40px;align-items:start;">
     <div>
       <div style="font-family:var(--font-display);font-weight:800;text-transform:uppercase;letter-spacing:0.02em;font-size:22px;color:var(--text);">{{ filmTitle }}</div>
       <p style="font-family:var(--font-display);font-style:italic;font-size:17px;color:var(--muted);margin:12px 0 20px;max-width:320px;">Some photographs cost everything.</p>
@@ -283,15 +283,15 @@
       </div>
     </div>
     <div>
-      <div style="font-family:var(--font-mono);font-size:12px;letter-spacing:0.2em;text-transform:uppercase;color:var(--faint);margin-bottom:16px;">Follow the film</div>
+      <div class="footer-heading">Follow the film</div>
       <div style="display:flex;gap:8px;flex-wrap:wrap;">
         <sc-for list="{{ footerSocials }}" as="f" hint-placeholder-count="4">
-          <a href="{{ f.h }}" target="_blank" rel="noopener noreferrer" style="font-size:13px;padding:9px 15px;border:1px solid var(--border);border-radius:999px;color:var(--muted);" style-hover="border-color:var(--accent);color:var(--text);">{{ f.l }}<span style="display:inline-block;width:11px;height:11px;vertical-align:-1px;margin-left:5px;background-color:currentColor;opacity:0.72;-webkit-mask:url(&quot;data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2024%2024'%3E%3Cpath%20d='M7%2017L17%207M8.5%207H17V15.5'%20fill='none'%20stroke='black'%20stroke-width='2.4'%20stroke-linecap='round'%20stroke-linejoin='round'/%3E%3C/svg%3E&quot;) center/contain no-repeat;mask:url(&quot;data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2024%2024'%3E%3Cpath%20d='M7%2017L17%207M8.5%207H17V15.5'%20fill='none'%20stroke='black'%20stroke-width='2.4'%20stroke-linecap='round'%20stroke-linejoin='round'/%3E%3C/svg%3E&quot;) center/contain no-repeat;"></span></a>
+          <a href="{{ f.h }}" target="_blank" rel="noopener noreferrer" style="font-size:13px;padding:9px 15px;border:1px solid var(--border);border-radius:999px;color:var(--muted);" style-hover="border-color:var(--accent);color:var(--text);">{{ f.l }}<span class="external-icon"></span></a>
         </sc-for>
       </div>
     </div>
     <div>
-      <div style="font-family:var(--font-mono);font-size:12px;letter-spacing:0.2em;text-transform:uppercase;color:var(--faint);margin-bottom:16px;">Get notified</div>
+      <div class="footer-heading">Get notified</div>
       <form onSubmit="{{ notify }}" style="display:flex;gap:8px;flex-wrap:wrap;">
         <label class="sr-only" for="notification-email">Email address</label>
         <input id="notification-email" name="email" type="email" autocomplete="email" inputmode="email" required placeholder="your email" style="flex:1;min-width:150px;padding:12px 15px;border-radius:10px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:14px;font-family:var(--font-body);" />
@@ -301,9 +301,9 @@
     </div>
   </div>
   <div style="max-width:1360px;margin:clamp(40px,5vw,64px) auto 0;padding:24px clamp(18px,4vw,44px) 0;border-top:1px solid var(--border);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;">
-    <span style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.08em;color:var(--faint);">© {{ releaseYear }} {{ filmTitle }} · A motion picture · Certified {{ contentRating }}</span>
-    <span style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.08em;color:var(--faint);">Credits, additional media and release details will continue to update here</span>
-    <span style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.08em;color:var(--faint);">Site v{{ siteVersion }}</span>
+    <span class="footer-meta">© {{ releaseYear }} {{ filmTitle }} · A motion picture · Certified {{ contentRating }}</span>
+    <span class="footer-meta">Credits, additional media and release details will continue to update here</span>
+    <span class="footer-meta">Site v{{ siteVersion }}</span>
   </div>
 </footer>
 
@@ -426,7 +426,7 @@ class Component extends DCLogic {
     if (content && content.film) return content;
     // Defensive fallback: keep the shell usable if the optional content asset fails to load.
     return {
-      build: { version: '1.1.0' },
+      build: { version: '1.2.0' },
       film: { title: 'Photographer', releaseDate: '2026-08-15', contentRating: 'U/A', releaseFormat: '2D', heroVideoId: '0c78E4Fr-OI' },
       navigation: [],
       booking: { cities: [], partners: [] },

@@ -10,6 +10,7 @@ After an update, run:
 
 ```powershell
 node .\scripts\verify-site.mjs
+.\scripts\check-render.ps1
 ```
 
 The check covers the content schema, asset load order, unique IDs, button and external-link guards, component mappings, card counts, and editor-override precedence.

@@ -10,6 +10,7 @@ The live domain currently serves the `photographer-official-theme` WordPress the
 
    ```powershell
    node .\scripts\verify-site.mjs
+   .\scripts\check-render.ps1
    .\scripts\build-theme.ps1
    .\scripts\build-theme.ps1 -CheckOnly
    ```
@@ -18,10 +19,11 @@ The live domain currently serves the `photographer-official-theme` WordPress the
 
    ```powershell
    git add VERSION CHANGELOG.md PROJECT-TODO.md PUBLISHING.md SITE-MAINTENANCE.md index.html site.css site-content.js scripts wp-theme
-   git commit -m "Release website v1.1.0"
-   git tag -a v1.1.0 -m "Website v1.1.0"
+   $version = (Get-Content -Raw .\VERSION).Trim()
+   git commit -m "Release website v$version"
+   git tag -a "v$version" -m "Website v$version"
    git push origin main
-   git push origin v1.1.0
+   git push origin "v$version"
    ```
 
 GitHub documents `git push` as the operation that transfers local commits or tags to the configured remote: <https://docs.github.com/en/get-started/using-git/pushing-commits-to-a-remote-repository>.
@@ -45,8 +47,9 @@ $response = Invoke-WebRequest -Uri 'https://photographerthemovie.com/' -TimeoutS
 $response.StatusCode
 $response.Headers.'X-Photographer-Site-Version'
 ([regex]::Match($response.Content, '<meta name="site-version" content="([^"]+)"')).Groups[1].Value
-$response.Content -match 'Site v1\.1\.0'
-$response.Content -match 'site-content\.js\?ver=1\.1\.0'
+$version = (Get-Content -Raw .\VERSION).Trim()
+$response.Content -match ('Site v' + [regex]::Escape($version))
+$response.Content -match ('site-content\.js\?ver=' + [regex]::Escape($version))
 ```
 
 Or run the equivalent automated check:
@@ -55,7 +58,7 @@ Or run the equivalent automated check:
 .\scripts\check-live-version.ps1
 ```
 
-All checks should report version `1.1.0` after caches are purged. Also test navigation, trailer mute, video modal opening/closing, horizontal media lists, theme appearance, and the email placeholder message on desktop and mobile.
+All checks should report the value in `VERSION` after caches are purged. Also test navigation, trailer mute, video modal opening/closing, horizontal media lists, theme appearance, and the email placeholder message on desktop and mobile.
 
 ## Rollback
 
