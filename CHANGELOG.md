@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.6.0 — 2026-07-13
+
+- Added a schema-backed JSON editorial source and deterministic generation/check workflow for the immutable runtime content module.
+- Added a pinned Sharp responsive-image pipeline with AVIF, WebP and JPEG fixture tests plus future WordPress packaging support.
+- Replaced the notification alert placeholder with a fail-closed, provider-ready client, consent controls, bot trap, timeout handling and accessible inline feedback.
+- Added focused content-editor, image-source and notification-provider integration documentation and expanded local/CI verification.
+
 ## 1.5.0 — 2026-07-13
 
 - Added GitHub Actions quality gates for source validation, rendered interactions, WordPress package synchronization and Lighthouse.

@@ -1,0 +1,15 @@
+{
+  "name": "photographer-movie-site",
+  "private": true,
+  "version": "1.6.0",
+  "type": "module",
+  "scripts": {
+    "content:build": "node scripts/build-content.mjs",
+    "content:check": "node scripts/build-content.mjs --check",
+    "images:test": "node scripts/build-images.mjs --manifest=scripts/fixtures/image-pipeline.json && node scripts/build-images.mjs --manifest=scripts/fixtures/image-pipeline.json --check",
+    "test": "node scripts/build-content.mjs --check && node scripts/verify-site.mjs"
+  },
+  "devDependencies": {
+    "sharp": "0.35.0"
+  }
+}

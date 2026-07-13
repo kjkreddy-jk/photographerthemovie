@@ -14,9 +14,11 @@ Statuses: `DONE`, `IN PROGRESS`, `NEXT`, `BLOCKED`, `LATER`.
 | DONE | Extract repeated inline component styles | Structural, CSS and keyboard-related markup checks pass |
 | DONE | Split major sections into importable components | Header, content sections and footer are independently importable; anchors, bindings and modal behavior remain unchanged |
 | DONE | Responsive mobile navigation | Keyboard, touch-size, Escape handling and reduced-motion checks pass |
-| BLOCKED | Responsive local image pipeline | Requires approved local poster, still and portrait source files before variants can be generated |
-| BLOCKED | Real notification subscription | Requires provider choice, privacy copy and API credentials |
-| NEXT | CMS or structured editorial workflow | Editorial source format, validation and preview workflow agreed |
+| DONE | Responsive local image build pipeline | Pinned fixture test generates and verifies AVIF, WebP and JPEG variants; production originals remain a publishing input |
+| BLOCKED | Publish approved local imagery | Add the approved poster sources listed in `content/image-sources.json`, generate variants and bind them after editorial approval |
+| DONE | Provider-ready notification client | Disabled configuration sends no data; configured mode requires HTTPS, consent, timeout handling and accessible status feedback |
+| BLOCKED | Activate notification subscription | Requires an HTTPS provider endpoint, reviewed privacy URL/consent copy and provider-side double opt-in, security and rate limits |
+| DONE | Structured editorial workflow | JSON source, editor schema, deterministic generator and stale-output checks are documented and automated |
 | DONE | Automated browser accessibility and Lighthouse checks | Rendered accessibility guards and Lighthouse run locally and in CI |
 
 Update this table in the same commit whenever an item changes status.

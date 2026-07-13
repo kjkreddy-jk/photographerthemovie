@@ -33,6 +33,12 @@ a:focus-visible,button:focus-visible,input:focus-visible,[tabindex="0"]:focus-vi
 .footer-heading{font-family:var(--font-mono);font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);margin-bottom:16px;}
 .footer-meta{font-family:var(--font-mono);font-size:11px;letter-spacing:.08em;color:var(--faint);}
 .external-icon{display:inline-block;width:11px;height:11px;vertical-align:-1px;margin-left:5px;background-color:currentColor;opacity:.72;-webkit-mask:url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2024%2024'%3E%3Cpath%20d='M7%2017L17%207M8.5%207H17V15.5'%20fill='none'%20stroke='black'%20stroke-width='2.4'%20stroke-linecap='round'%20stroke-linejoin='round'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2024%2024'%3E%3Cpath%20d='M7%2017L17%207M8.5%207H17V15.5'%20fill='none'%20stroke='black'%20stroke-width='2.4'%20stroke-linecap='round'%20stroke-linejoin='round'/%3E%3C/svg%3E") center/contain no-repeat;}
+.form-honeypot{position:absolute!important;left:-10000px!important;width:1px!important;height:1px!important;overflow:hidden!important;}
+.notification-consent{flex-basis:100%;display:flex;align-items:flex-start;gap:8px;font-size:12px;line-height:1.5;color:var(--muted);}
+.notification-consent input{margin-top:3px;accent-color:var(--accent);}
+.notification-consent a{text-decoration:underline;text-underline-offset:2px;}
+.notification-status{min-height:18px;margin:8px 0 0;font-size:12px;line-height:1.5;color:var(--muted);}
+button:disabled{cursor:not-allowed!important;opacity:.65;}
 
 /* Responsive site header. Component state only controls visibility; layout stays in CSS. */
 .site-header{position:fixed;top:0;left:0;right:0;z-index:50;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);background:color-mix(in srgb,var(--bg) 84%,transparent);border-bottom:1px solid var(--border);transition:transform .35s ease,opacity .3s ease;}

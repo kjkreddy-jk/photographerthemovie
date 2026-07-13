@@ -4,22 +4,24 @@ The live domain currently serves the `photographer-official-theme` WordPress the
 
 ## Prepare and build
 
-1. Update campaign data in `site-content.js` and advance `VERSION` for a release.
-2. Keep the HTML `site-version`, `site-content.js` build version, `CHANGELOG.md`, and theme `style.css` version aligned.
-3. Run the root verification and build the synchronized theme package:
+1. Install the pinned build dependency with `npm ci`.
+2. Update campaign data in `content/site-content.json`, run `npm run content:build`, and advance `VERSION` for a release. See `CONTENT-EDITOR-GUIDE.md`.
+3. Keep the HTML `site-version`, generated content build version, `CHANGELOG.md`, and theme `style.css` version aligned.
+4. Run the root verification and build the synchronized theme package:
 
    ```powershell
-   node .\scripts\verify-site.mjs
+   npm test
+   npm run images:test
    .\scripts\check-render.ps1
    .\scripts\check-lighthouse.ps1
    .\scripts\build-theme.ps1
    .\scripts\build-theme.ps1 -CheckOnly
    ```
 
-4. Review `git diff`, commit the complete release, and create a matching tag:
+5. If approved source images are present, run `node .\scripts\build-images.mjs` before the theme build. Review `git diff`, commit the complete release, and create a matching tag:
 
    ```powershell
-   git add .github .gitignore VERSION CHANGELOG.md PROJECT-TODO.md PUBLISHING.md SITE-MAINTENANCE.md index.html site.css site-content.js component-resources.js *.dc.html scripts wp-theme
+   git add .github .gitignore VERSION CHANGELOG.md PROJECT-TODO.md PUBLISHING.md SITE-MAINTENANCE.md CONTENT-EDITOR-GUIDE.md NOTIFICATION-INTEGRATION.md package.json package-lock.json content assets index.html site.css site-content.js component-resources.js *.dc.html scripts wp-theme
    $version = (Get-Content -Raw .\VERSION).Trim()
    git commit -m "Release website v$version"
    git tag -a "v$version" -m "Website v$version"
@@ -59,7 +61,7 @@ Or run the equivalent automated check:
 .\scripts\check-live-version.ps1
 ```
 
-All checks should report the value in `VERSION` after caches are purged. Also test navigation, trailer mute, video modal opening/closing, horizontal media lists, theme appearance, and the email placeholder message on desktop and mobile.
+All checks should report the value in `VERSION` after caches are purged. Also test navigation, trailer mute, video modal opening/closing, horizontal media lists, theme appearance, and notification feedback on desktop and mobile. Do not activate notification delivery until `NOTIFICATION-INTEGRATION.md` is complete.
 
 ## Rollback
 

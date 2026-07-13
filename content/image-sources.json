@@ -1,0 +1,17 @@
+{
+  "outputDirectory": "assets/generated",
+  "widths": [480, 960, 1440, 1920],
+  "formats": ["avif", "webp", "jpeg"],
+  "images": [
+    {
+      "id": "hero-poster",
+      "source": "assets/source/hero-poster.jpg",
+      "alt": "Veera standing with his camera in Mathikettan Solai"
+    },
+    {
+      "id": "share-poster",
+      "source": "assets/source/share-poster.jpg",
+      "alt": "Photographer official theatrical poster"
+    }
+  ]
+}

@@ -304,7 +304,38 @@ socket.onmessage = event => {
     const reduced = results.reducedMotion;
     const duration = reduced?.toggleTransitionDuration || '';
     const durationSeconds = duration.endsWith('ms') ? Number.parseFloat(duration) / 1000 : Number.parseFloat(duration);
-    finish(!!(reduced && reduced.scrollBehavior === 'auto' && Number.isFinite(durationSeconds) && durationSeconds <= 0.001));
+    if (!(reduced && reduced.scrollBehavior === 'auto' && Number.isFinite(durationSeconds) && durationSeconds <= 0.001)) {
+      finish(false);
+      return;
+    }
+    evaluate(19, `(() => {
+      window.__notificationFetchCount = 0;
+      const originalFetch = window.fetch;
+      window.fetch = (...args) => { window.__notificationFetchCount += 1; return originalFetch(...args); };
+      const input = document.querySelector('#notification-email');
+      input.value = 'render-check@example.test';
+      input.closest('form').requestSubmit();
+      return true;
+    })()`);
+    return;
+  }
+
+  if (message.id === 19) {
+    setTimeout(() => evaluate(20, `(() => ({
+      status: document.querySelector('#notification-status')?.textContent.trim(),
+      fetchCount: window.__notificationFetchCount,
+      valueRetained: document.querySelector('#notification-email')?.value
+    }))()`), 100);
+    return;
+  }
+
+  if (message.id === 20) {
+    results.notificationDisabled = message.result?.result?.value;
+    const notification = results.notificationDisabled;
+    finish(!!(notification
+      && notification.status === 'Notification signup is not connected yet. No email address was sent.'
+      && notification.fetchCount === 0
+      && notification.valueRetained === 'render-check@example.test'));
   }
 };
 

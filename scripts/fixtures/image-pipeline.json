@@ -1,0 +1,12 @@
+{
+  "outputDirectory": ".image-pipeline-test",
+  "widths": [480, 960],
+  "formats": ["avif", "webp", "jpeg"],
+  "images": [
+    {
+      "id": "pipeline-fixture",
+      "source": "scripts/fixtures/image-source.svg",
+      "alt": "Image pipeline test fixture"
+    }
+  ]
+}

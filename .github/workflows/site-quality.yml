@@ -23,9 +23,17 @@ jobs:
           node-version: 22
           package-manager-cache: false
 
+      - name: Install pinned quality tooling
+        shell: pwsh
+        run: npm ci
+
       - name: Verify source and content
         shell: pwsh
-        run: node .\scripts\verify-site.mjs
+        run: npm test
+
+      - name: Verify responsive image pipeline
+        shell: pwsh
+        run: npm run images:test
 
       - name: Verify rendered interactions and accessibility
         shell: pwsh

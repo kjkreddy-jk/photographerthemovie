@@ -13,6 +13,8 @@ const same = (actual, expected, message) => {
 };
 
 const html = read('index.html');
+const editorialContent = JSON.parse(read('content/site-content.json'));
+delete editorialContent.$schema;
 const contentSource = read('site-content.js');
 const resourceSource = read('component-resources.js');
 const supportSource = read('support.js');
@@ -47,6 +49,8 @@ for (const file of componentFiles) {
 }
 
 assert(content && content.film, 'site-content.js did not register campaign data');
+same(content, editorialContent, 'generated site-content.js does not match content/site-content.json');
+assert(fs.existsSync(path.join(root, 'content', 'site-content.schema.json')), 'editorial JSON schema is missing');
 assert(/^\d+\.\d+\.\d+$/.test(version), 'VERSION must use semantic versioning');
 assert(content.build && content.build.version === version, 'site-content.js build version does not match VERSION');
 assert(Object.isFrozen(content) && Object.isFrozen(content.cast), 'campaign data must remain deeply frozen');
@@ -64,6 +68,12 @@ for (const item of [...content.videos, ...content.shorts]) {
   assert(item.title, 'every media item needs a title');
 }
 assert(new Set(content.cast.map(person => person.name)).size === content.cast.length, 'cast names must be unique');
+assert(typeof content.notifications?.enabled === 'boolean', 'notification enabled state must be explicit');
+if (content.notifications.enabled) {
+  assert(new URL(content.notifications.endpoint).protocol === 'https:', 'notification endpoint must use HTTPS');
+  assert(new URL(content.notifications.privacyUrl).protocol === 'https:', 'notification privacy URL must use HTTPS');
+  assert(content.notifications.consentText.trim(), 'enabled notifications need consent text');
+}
 
 const contentScriptAt = html.indexOf('<script src="./site-content.js" defer></script>');
 const resourceScriptAt = html.indexOf('<script src="./component-resources.js" defer></script>');
@@ -74,10 +84,13 @@ assert(html.includes('aria-expanded="{{ mobileNavOpen }}"') || componentTemplate
 assert(css.includes('@media (max-width:760px)') && css.includes('@media (prefers-reduced-motion:reduce)'), 'responsive and reduced-motion styles are required');
 assert(css.includes('.mobile-nav-toggle{display:none;width:44px;height:44px;'), 'mobile navigation toggle must retain a 44px touch target');
 assert(html.includes("this.state.mobileNavOpen && e.key === 'Escape'"), 'mobile navigation must close on Escape');
+assert(html.includes("body: JSON.stringify({ email, consent: true, source: 'website-footer' })"), 'notification client payload guard changed');
+assert(html.includes("if (!config.configured)"), 'notification client must fail closed when configuration is incomplete');
+assert(componentTemplates.some(template => template.includes('role="status"') && template.includes('aria-live="polite"')), 'notification feedback needs an accessible live region');
 assert(html.includes(`<meta name="site-version" content="${version}">`), 'HTML site-version does not match VERSION');
 assert(html.includes('<link rel="stylesheet" href="./site.css">'), 'site.css is not linked');
 assert(fs.existsSync(path.join(root, 'site-content.js')) && fs.existsSync(path.join(root, 'component-resources.js')) && fs.existsSync(path.join(root, 'support.js')) && fs.existsSync(path.join(root, 'site.css')), 'a linked local asset is missing');
-for (const command of ['verify-site.mjs', 'check-render.ps1', 'build-theme.ps1 -CheckOnly', 'check-lighthouse.ps1']) {
+for (const command of ['npm test', 'images:test', 'check-render.ps1', 'build-theme.ps1 -CheckOnly', 'check-lighthouse.ps1']) {
   assert(qualityWorkflow.includes(command), `CI quality workflow is missing ${command}`);
 }
 assert(fs.existsSync(path.join(root, 'scripts', 'assert-lighthouse.mjs')), 'Lighthouse score assertion is missing');
@@ -128,7 +141,7 @@ assert(componentTagAt >= 0 && componentEnd > componentStart, 'component script w
 const Component = new Function('DCLogic', 'window', html.slice(componentStart, componentEnd) + '; return Component;')(class {}, context.window);
 const component = Object.create(Component.prototype);
 component.props = {};
-component.state = { look: 'forest-noir', modal: null, cd: { d: '1', h: '02', m: '03', s: '04' }, muted: true, showNav: true };
+component.state = { look: 'forest-noir', modal: null, cd: { d: '1', h: '02', m: '03', s: '04' }, muted: true, showNav: true, mobileNavOpen: false, notificationBusy: false, notificationStatus: '' };
 const values = component.renderVals();
 const links = (items) => items.map(item => ({ l: item.label, h: item.href }));
 
@@ -143,6 +156,8 @@ assert(values.trailers.length === content.videos.length, 'video card count chang
 assert(values.shorts.length === content.shorts.length, 'short card count changed');
 assert(values.cast.length === content.cast.length, 'cast card count changed');
 assert(values.crew.length === content.crew.length, 'crew row count changed');
+assert(values.notificationConfigured === false, 'unconfigured notification client must remain disabled');
+assert(values.notificationStatus === '', 'notification status must start empty');
 
 component.props = { releaseDate: '2027-01-02', heroVideoId: 'override-id' };
 assert(component.releaseInfo().iso === '2027-01-02', 'releaseDate editor override no longer wins');

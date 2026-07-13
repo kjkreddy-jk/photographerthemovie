@@ -8,7 +8,7 @@
 <meta name="description" content="Official website for Photographer, a forest-set drama thriller following an obsessive artist chasing a life-changing image in Mathikettan Solai.">
 <meta name="robots" content="index,follow">
 <meta name="theme-color" content="#0a0e0b">
-<meta name="site-version" content="1.5.0">
+<meta name="site-version" content="1.6.0">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230a0e0b'/%3E%3Ccircle cx='32' cy='32' r='17' fill='none' stroke='%23a9d5b7' stroke-width='6'/%3E%3Ccircle cx='32' cy='32' r='6' fill='%23a9d5b7'/%3E%3C/svg%3E">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Photographer | Official Movie Site">
@@ -75,7 +75,7 @@
 <dc-import name="ShortsSection" shorts="{{ shorts }}" film-instagram-href="{{ filmInstagramHref }}"></dc-import>
 <dc-import name="CastSection" cast="{{ cast }}" crew="{{ crew }}"></dc-import>
 </main>
-<dc-import name="FooterSection" film-title="{{ filmTitle }}" release-year="{{ releaseYear }}" content-rating="{{ contentRating }}" site-version="{{ siteVersion }}" footer-socials="{{ footerSocials }}" notify="{{ notify }}"></dc-import>
+<dc-import name="FooterSection" film-title="{{ filmTitle }}" release-year="{{ releaseYear }}" content-rating="{{ contentRating }}" site-version="{{ siteVersion }}" footer-socials="{{ footerSocials }}" notify="{{ notify }}" notification-busy="{{ notificationBusy }}" notification-status="{{ notificationStatus }}" notification-configured="{{ notificationConfigured }}" notification-consent-text="{{ notificationConsentText }}" notification-privacy-url="{{ notificationPrivacyUrl }}"></dc-import>
 <sc-if value="{{ modalOpen }}" hint-placeholder-val="{{ false }}">
   <div ref="{{ modalDialogRef }}" role="dialog" aria-modal="true" aria-labelledby="modal-title" onClick="{{ closeModal }}" style="position:fixed;inset:0;z-index:100;background:rgba(0,0,0,0.85);backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;padding:24px;animation:mfade .22s ease;">
     <h2 id="modal-title" class="sr-only">{{ modalTitle }}</h2>
@@ -109,7 +109,9 @@ class Component extends DCLogic {
     cd: { d: '--', h: '--', m: '--', s: '--' },
     muted: true,
     showNav: true,
-    mobileNavOpen: false
+    mobileNavOpen: false,
+    notificationBusy: false,
+    notificationStatus: ''
   };
 
   componentDidMount() {
@@ -217,10 +219,11 @@ class Component extends DCLogic {
     if (content && content.film) return content;
     // Defensive fallback: keep the shell usable if the optional content asset fails to load.
     return {
-      build: { version: '1.5.0' },
+      build: { version: '1.6.0' },
       film: { title: 'Photographer', releaseDate: '2026-08-15', contentRating: 'U/A', releaseFormat: '2D', heroVideoId: '0c78E4Fr-OI' },
       navigation: [],
       booking: { cities: [], partners: [] },
+      notifications: { enabled: false, endpoint: '', privacyUrl: '', consentText: '' },
       social: { film: [], artist: [] },
       videos: [],
       shorts: [],
@@ -230,6 +233,63 @@ class Component extends DCLogic {
   }
   heroVideoId() {
     return this.props.heroVideoId || this.siteContent().film.heroVideoId;
+  }
+  notificationConfig() {
+    const source = this.siteContent().notifications || {};
+    const endpoint = typeof source.endpoint === 'string' ? source.endpoint.trim() : '';
+    const privacyUrl = typeof source.privacyUrl === 'string' ? source.privacyUrl.trim() : '';
+    const consentText = typeof source.consentText === 'string' ? source.consentText.trim() : '';
+    const isHttpsUrl = (value) => { try { return new URL(value).protocol === 'https:'; } catch (err) { return false; } };
+    const configured = source.enabled === true && isHttpsUrl(endpoint) && isHttpsUrl(privacyUrl) && !!consentText;
+    return { endpoint, privacyUrl, consentText, configured };
+  }
+  async submitNotification(e) {
+    if (e && typeof e.preventDefault === 'function') e.preventDefault();
+    if (this.state.notificationBusy) return;
+    const config = this.notificationConfig();
+    if (!config.configured) {
+      this.setState({ notificationStatus: 'Notification signup is not connected yet. No email address was sent.' });
+      return;
+    }
+    const form = e && (e.currentTarget || e.target);
+    if (!form || typeof FormData !== 'function') return;
+    const values = new FormData(form);
+    // A filled hidden field indicates an automated submission; acknowledge it without transmitting data.
+    if (values.get('website')) {
+      this.setState({ notificationStatus: 'Thanks. Please check your inbox for the next step.' });
+      return;
+    }
+    const email = String(values.get('email') || '').trim();
+    if (!email || (typeof form.reportValidity === 'function' && !form.reportValidity())) return;
+    this.setState({ notificationBusy: true, notificationStatus: 'Submitting your request…' });
+    const controller = typeof AbortController === 'function' ? new AbortController() : null;
+    const timeout = controller ? setTimeout(() => controller.abort(), 10000) : null;
+    try {
+      const response = await fetch(config.endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({ email, consent: true, source: 'website-footer' }),
+        signal: controller ? controller.signal : undefined
+      });
+      if (!response.ok) throw new Error('Subscription endpoint returned ' + response.status);
+      if (typeof form.reset === 'function') form.reset();
+      this.setState({ notificationStatus: 'Thanks. Please check your inbox to confirm your subscription.' });
+    } catch (err) {
+      this.setState({ notificationStatus: 'We could not submit your request. Please try again later.' });
+    } finally {
+      if (timeout) clearTimeout(timeout);
+      this.setState({ notificationBusy: false });
+    }
+  }
+  requestNotification() {
+    const input = document.getElementById('notification-email');
+    if (input && typeof input.focus === 'function') {
+      input.focus();
+      if (typeof input.scrollIntoView === 'function') input.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+    if (!this.notificationConfig().configured) {
+      this.setState({ notificationStatus: 'Notification signup is not connected yet. No email address was sent.' });
+    }
   }
   releaseInfo() {
     const defaultDate = this.siteContent().film.releaseDate || '2026-08-15';
@@ -398,10 +458,12 @@ class Component extends DCLogic {
       trailers, shorts, cast, crew,
       cd: this.state.cd,
       openTrailer: () => this.openTrailer(),
-      notify: (e) => {
-        if (e && typeof e.preventDefault === 'function') e.preventDefault();
-        try { window.alert('Notification signup is not connected yet. No email address has been submitted.'); } catch (err) {}
-      },
+      notify: (e) => e && e.type === 'submit' ? this.submitNotification(e) : this.requestNotification(),
+      notificationBusy: this.state.notificationBusy,
+      notificationStatus: this.state.notificationStatus,
+      notificationConfigured: this.notificationConfig().configured,
+      notificationConsentText: this.notificationConfig().consentText,
+      notificationPrivacyUrl: this.notificationConfig().privacyUrl,
       modalOpen: !!m,
       modalBoxStyle: box,
       modalIframe: m && m.videoId ? true : false,

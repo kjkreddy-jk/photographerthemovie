@@ -1,3 +1,5 @@
 .thumbnail
 .DS_Store
 .lighthouseci/
+node_modules/
+.image-pipeline-test/
