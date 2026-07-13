@@ -8,7 +8,7 @@
 <meta name="description" content="Official website for Photographer, a forest-set drama thriller following an obsessive artist chasing a life-changing image in Mathikettan Solai.">
 <meta name="robots" content="index,follow">
 <meta name="theme-color" content="#0a0e0b">
-<meta name="site-version" content="1.2.0">
+<meta name="site-version" content="1.3.0">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Photographer | Official Movie Site">
 <meta property="og:description" content="A forest-set drama thriller about obsession, ambition and the image that can change everything.">
@@ -39,8 +39,9 @@
   ]
 }
 </script>
-<!-- Keep site-content.js before support.js: the component reads this data during its first render. -->
+<!-- Keep campaign data and component resource mapping before support.js. -->
 <script src="./site-content.js" defer></script>
+<script src="./component-resources.js" defer></script>
 <script src="./support.js" defer></script>
 </head>
 <body>
@@ -131,48 +132,9 @@
   </div>
 </section>
 
-<section id="story" style="padding:clamp(64px,9vw,150px) 0;background:var(--bg);scroll-margin-top:74px;">
-  <div class="site-container" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:clamp(36px,6vw,90px);align-items:start;">
-    <div>
-      <div style="font-family:var(--font-mono);font-size:12px;letter-spacing:0.28em;text-transform:uppercase;color:var(--faint);margin-bottom:22px;">The Story</div>
-      <h2 style="font-family:var(--font-display);font-weight:var(--display-weight);font-size:clamp(30px,4vw,58px);line-height:1.04;margin:0;color:var(--text);">A vision worth<br />losing everything for.</h2>
-      <div style="margin-top:34px;display:grid;gap:14px;max-width:340px;">
-        <div class="fact-row"><span class="fact-label">Genre</span><span class="fact-value">Drama · Thriller · Mystery</span></div>
-        <div class="fact-row"><span class="fact-label">Setting</span><span class="fact-value">Mathikettan Solai</span></div>
-        <div class="fact-row"><span class="fact-label">Release</span><span class="fact-value"><time datetime="{{ releaseDateIso }}">{{ releaseDateShort }}</time> · Theatres</span></div>
-      </div>
-    </div>
-    <div style="max-width:600px;">
-      <p class="story-copy"><span style="color:var(--text);font-weight:600;">Veera</span> is a troubled, obsessive photographer determined to prove his worth in a world that has long dismissed him.</p>
-      <p class="story-copy">Driven by ambition and haunted by a painful past, he ventures deep into <span style="color:var(--text);">Mathikettan Solai</span> — a mysterious reserve forest — to capture a rare and elusive natural phenomenon that could change his life forever.</p>
-      <p class="story-copy">But the deeper he goes, the more the forest begins to photograph him back.</p>
-      <div style="margin-top:30px;padding:20px 24px;border-left:2px solid var(--accent);background:var(--accent-soft);border-radius:0 12px 12px 0;">
-        <p style="font-family:var(--font-display);font-style:italic;font-size:clamp(19px,1.8vw,24px);line-height:1.4;margin:0;color:var(--text);">"He came to take one picture. The forest had other plans."</p>
-        <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--faint);margin-top:12px;">Director's note coming with the full media launch</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="tickets" style="padding:clamp(58px,8vw,120px) 0;background:var(--bg-2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);scroll-margin-top:74px;">
-  <div style="max-width:900px;margin:0 auto;padding:0 clamp(18px,4vw,44px);text-align:center;">
-    <div style="font-family:var(--font-mono);font-size:12px;letter-spacing:0.3em;text-transform:uppercase;color:var(--accent);margin-bottom:20px;">◉ In Cinemas Soon</div>
-    <h2 style="font-family:var(--font-display);font-weight:var(--display-weight);font-size:clamp(40px,6vw,86px);line-height:1;margin:0;color:var(--text);"><time datetime="{{ releaseDateIso }}">{{ releaseDateLong }}</time></h2>
-    <p style="font-size:15px;color:var(--muted);margin:18px 0 0;letter-spacing:0.02em;">Releasing in {{ releaseFormat }} across select cities · Certified {{ contentRating }}</p>
-    <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:26px 0 0;">
-      <sc-for list="{{ cities }}" as="c" hint-placeholder-count="6">
-        <span style="font-size:13px;color:var(--muted);padding:7px 14px;border:1px solid var(--border);border-radius:999px;background:var(--surface);">{{ c }}</span>
-      </sc-for>
-    </div>
-    <div style="display:flex;gap:13px;flex-wrap:wrap;justify-content:center;margin-top:34px;">
-      <button type="button" onClick="{{ notify }}" style="padding:19px 38px;border-radius:999px;background:var(--accent);color:var(--accent-ink);font-weight:700;font-size:17px;cursor:pointer;">Get Notified When Booking Opens</button>
-      <sc-for list="{{ partners }}" as="p" hint-placeholder-count="2">
-        <a href="{{ p.h }}" target="_blank" rel="noopener noreferrer" style="padding:19px 34px;border-radius:999px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-weight:600;font-size:17px;display:inline-flex;align-items:center;gap:8px;" style-hover="border-color:var(--accent);">{{ p.l }}<span class="external-icon"></span></a>
-      </sc-for>
-    </div>
-    <p style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.1em;color:var(--faint);margin:22px 0 0;">Pre-booking partners · dates subject to change</p>
-  </div>
-</section>
+<!-- Section components keep their original IDs so navigation and deep links remain stable. -->
+<dc-import name="StorySection" release-date-iso="{{ releaseDateIso }}" release-date-short="{{ releaseDateShort }}"></dc-import>
+<dc-import name="TicketsSection" release-date-iso="{{ releaseDateIso }}" release-date-long="{{ releaseDateLong }}" release-format="{{ releaseFormat }}" content-rating="{{ contentRating }}" cities="{{ cities }}" partners="{{ partners }}" notify="{{ notify }}"></dc-import>
 
 <section id="videos" style="padding:clamp(56px,8vw,120px) 0;background:var(--bg);scroll-margin-top:74px;">
   <div class="site-container">
@@ -426,7 +388,7 @@ class Component extends DCLogic {
     if (content && content.film) return content;
     // Defensive fallback: keep the shell usable if the optional content asset fails to load.
     return {
-      build: { version: '1.2.0' },
+      build: { version: '1.3.0' },
       film: { title: 'Photographer', releaseDate: '2026-08-15', contentRating: 'U/A', releaseFormat: '2D', heroVideoId: '0c78E4Fr-OI' },
       navigation: [],
       booking: { cities: [], partners: [] },

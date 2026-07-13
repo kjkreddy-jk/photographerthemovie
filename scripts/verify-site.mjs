@@ -14,16 +14,32 @@ const same = (actual, expected, message) => {
 
 const html = read('index.html');
 const contentSource = read('site-content.js');
+const resourceSource = read('component-resources.js');
 const supportSource = read('support.js');
 const css = read('site.css');
 const version = read('VERSION').trim();
+const componentFiles = ['StorySection.dc.html', 'TicketsSection.dc.html'];
+const componentTemplates = componentFiles.map(file => read(file));
+const allTemplates = [html, ...componentTemplates].join('\n');
 
 // Parse executable assets without starting the browser-dependent runtime.
 new Function(supportSource);
+new Function(resourceSource);
 const context = vm.createContext({ window: {} });
 context.window.window = context.window;
 vm.runInContext(contentSource, context, { filename: 'site-content.js' });
 const content = context.window.PHOTOGRAPHER_SITE_CONTENT;
+
+// Simulate WordPress' cache-busted loader URL and verify imported templates inherit it.
+const resourceContext = vm.createContext({
+  URL,
+  document: { currentScript: { src: `https://example.test/wp-content/themes/photographer/component-resources.js?ver=${version}` } },
+  window: { location: { href: 'https://example.test/' } }
+});
+vm.runInContext(resourceSource, resourceContext, { filename: 'component-resources.js' });
+for (const file of componentFiles) {
+  assert(resourceContext.window.__resources[`./${file}`] === `https://example.test/wp-content/themes/photographer/${file}?ver=${version}`, `cache-busted theme mapping changed: ${file}`);
+}
 
 assert(content && content.film, 'site-content.js did not register campaign data');
 assert(/^\d+\.\d+\.\d+$/.test(version), 'VERSION must use semantic versioning');
@@ -45,11 +61,20 @@ for (const item of [...content.videos, ...content.shorts]) {
 assert(new Set(content.cast.map(person => person.name)).size === content.cast.length, 'cast names must be unique');
 
 const contentScriptAt = html.indexOf('<script src="./site-content.js" defer></script>');
+const resourceScriptAt = html.indexOf('<script src="./component-resources.js" defer></script>');
 const runtimeScriptAt = html.indexOf('<script src="./support.js" defer></script>');
-assert(contentScriptAt >= 0 && runtimeScriptAt > contentScriptAt, 'site-content.js must load before support.js');
+assert(contentScriptAt >= 0 && resourceScriptAt > contentScriptAt && runtimeScriptAt > resourceScriptAt, 'data and component resources must load before support.js');
+assert(!/<dc-import\b[^>]*\/>/.test(html), 'dc-import elements need explicit closing tags so sibling imports are not nested by the HTML parser');
 assert(html.includes(`<meta name="site-version" content="${version}">`), 'HTML site-version does not match VERSION');
 assert(html.includes('<link rel="stylesheet" href="./site.css">'), 'site.css is not linked');
-assert(fs.existsSync(path.join(root, 'site-content.js')) && fs.existsSync(path.join(root, 'support.js')) && fs.existsSync(path.join(root, 'site.css')), 'a linked local asset is missing');
+assert(fs.existsSync(path.join(root, 'site-content.js')) && fs.existsSync(path.join(root, 'component-resources.js')) && fs.existsSync(path.join(root, 'support.js')) && fs.existsSync(path.join(root, 'site.css')), 'a linked local asset is missing');
+for (const file of componentFiles) {
+  const name = path.basename(file, '.dc.html');
+  assert(html.includes(`<dc-import name="${name}"`), `index.html does not import ${name}`);
+  assert(fs.existsSync(path.join(root, file)), `component file is missing: ${file}`);
+  assert((read(file).match(/<x-dc>/g) || []).length === 1, `${file} must contain one x-dc root`);
+  assert(resourceSource.includes(`'${file}'`), `component resource mapping is missing: ${file}`);
+}
 assert((css.match(/{/g) || []).length === (css.match(/}/g) || []).length, 'site.css contains unbalanced braces');
 const reusableClasses = [
   'site-container', 'media-heading-row', 'section-kicker', 'section-heading',
@@ -58,7 +83,7 @@ const reusableClasses = [
 ];
 for (const className of reusableClasses) {
   assert(css.includes(`.${className}{`), `site.css is missing .${className}`);
-  assert(new RegExp(`class="[^"]*\\b${className}\\b`).test(html), `index.html does not use .${className}`);
+  assert(new RegExp(`class="[^"]*\\b${className}\\b`).test(allTemplates), `templates do not use .${className}`);
 }
 const extractedStyles = [
   'min-width:66px;text-align:center;border:1px solid var(--border);background:var(--surface)',
@@ -67,15 +92,15 @@ const extractedStyles = [
   'display:inline-block;width:11px;height:11px;vertical-align:-1px;margin-left:5px;background-color:currentColor;opacity:0.72;'
 ];
 for (const declaration of extractedStyles) {
-  assert(!html.includes(`style="${declaration}`), `an extracted inline declaration returned: ${declaration}`);
+  assert(!allTemplates.includes(`style="${declaration}`), `an extracted inline declaration returned: ${declaration}`);
 }
 
-const ids = [...html.matchAll(/\bid="([^"]+)"/g)].map(match => match[1]);
-assert(new Set(ids).size === ids.length, 'index.html contains duplicate IDs');
-for (const match of html.matchAll(/<button\b[^>]*>/g)) {
+const ids = [...allTemplates.matchAll(/\bid="([^"]+)"/g)].map(match => match[1]);
+assert(new Set(ids).size === ids.length, 'page templates contain duplicate IDs');
+for (const match of allTemplates.matchAll(/<button\b[^>]*>/g)) {
   assert(/\btype="(?:button|submit|reset)"/.test(match[0]), 'every button needs an explicit valid type');
 }
-for (const match of html.matchAll(/<a\b[^>]*target="_blank"[^>]*>/g)) {
+for (const match of allTemplates.matchAll(/<a\b[^>]*target="_blank"[^>]*>/g)) {
   assert(/\brel="[^"]*noopener[^"]*noreferrer[^"]*"/.test(match[0]), 'new-tab links need noopener and noreferrer');
 }
 assert((html.match(/<main\b/g) || []).length === 1 && (html.match(/<\/main>/g) || []).length === 1, 'index.html must contain one balanced main landmark');

@@ -23,6 +23,12 @@ socket.onopen = () => {
         footerVersion: document.body.innerText.includes('Site v${expectedVersion}'),
         unresolvedBinding: document.body.innerHTML.includes('{{'),
         controlTagsRemaining: document.querySelectorAll('sc-for, sc-if, x-dc').length,
+        storySection: !!document.querySelector('#story'),
+        ticketsSection: !!document.querySelector('#tickets'),
+        storyRelease: document.querySelector('#story time')?.textContent,
+        ticketCityCount: document.querySelectorAll('#tickets .ticket-city').length,
+        componentErrors: [...document.querySelectorAll('.sc-placeholder-error')].map(element => element.textContent),
+        componentRequests: performance.getEntriesByType('resource').map(entry => entry.name).filter(name => name.includes('.dc.html')),
         releaseBadgeCount: document.querySelectorAll('.release-badge').length,
         countdownCount: document.querySelectorAll('.countdown-unit').length,
         externalIconCount: document.querySelectorAll('.external-icon').length,
@@ -54,6 +60,10 @@ socket.onmessage = event => {
     && result.footerVersion
     && !result.unresolvedBinding
     && result.controlTagsRemaining === 0
+    && result.storySection
+    && result.ticketsSection
+    && result.storyRelease === '15 Aug 2026'
+    && result.ticketCityCount === 6
     && result.releaseBadgeCount === 5
     && result.countdownCount === 4
     && result.externalIconCount === 9

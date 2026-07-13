@@ -7,7 +7,7 @@ $root = Split-Path -Parent $PSScriptRoot
 $themeDir = Join-Path $root 'wp-theme\photographer-official-theme'
 $zipPath = Join-Path $root 'wp-theme\photographer-official-theme.zip'
 $version = (Get-Content -Raw (Join-Path $root 'VERSION')).Trim()
-$sharedFiles = @('index.html', 'site.css', 'site-content.js', 'support.js', 'VERSION')
+$sharedFiles = @('index.html', 'site.css', 'site-content.js', 'component-resources.js', 'support.js', 'VERSION', 'StorySection.dc.html', 'TicketsSection.dc.html')
 
 function Assert-Condition {
     param([bool]$Condition, [string]$Message)
@@ -36,7 +36,7 @@ try {
     }
 
     $frontPage = Get-Content -Raw (Join-Path $themeDir 'front-page.php')
-    foreach ($asset in @('site.css', 'site-content.js', 'support.js')) {
+    foreach ($asset in @('site.css', 'site-content.js', 'component-resources.js', 'support.js')) {
         Assert-Condition ($frontPage.Contains($asset)) "WordPress loader is missing $asset"
     }
 

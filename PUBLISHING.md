@@ -18,7 +18,7 @@ The live domain currently serves the `photographer-official-theme` WordPress the
 4. Review `git diff`, commit the complete release, and create a matching tag:
 
    ```powershell
-   git add VERSION CHANGELOG.md PROJECT-TODO.md PUBLISHING.md SITE-MAINTENANCE.md index.html site.css site-content.js scripts wp-theme
+   git add VERSION CHANGELOG.md PROJECT-TODO.md PUBLISHING.md SITE-MAINTENANCE.md index.html site.css site-content.js component-resources.js *.dc.html scripts wp-theme
    $version = (Get-Content -Raw .\VERSION).Trim()
    git commit -m "Release website v$version"
    git tag -a "v$version" -m "Website v$version"

@@ -46,11 +46,13 @@ $theme_asset_url = static function ( $file ) use ( $theme_version ) {
 $html = str_replace(
 	array(
 		'<script src="./site-content.js" defer></script>',
+		'<script src="./component-resources.js" defer></script>',
 		'<script src="./support.js" defer></script>',
 		'<link rel="stylesheet" href="./site.css">',
 	),
 	array(
 		sprintf( '<script src="%s" defer></script>', $theme_asset_url( 'site-content.js' ) ),
+		sprintf( '<script src="%s" defer></script>', $theme_asset_url( 'component-resources.js' ) ),
 		sprintf( '<script src="%s" defer></script>', $theme_asset_url( 'support.js' ) ),
 		sprintf( '<link rel="stylesheet" href="%s">', $theme_asset_url( 'site.css' ) ),
 	),

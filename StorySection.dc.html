@@ -1,0 +1,24 @@
+<x-dc>
+<section id="story" style="padding:clamp(64px,9vw,150px) 0;background:var(--bg);scroll-margin-top:74px;">
+  <div class="site-container" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:clamp(36px,6vw,90px);align-items:start;">
+    <div>
+      <div style="font-family:var(--font-mono);font-size:12px;letter-spacing:0.28em;text-transform:uppercase;color:var(--faint);margin-bottom:22px;">The Story</div>
+      <h2 style="font-family:var(--font-display);font-weight:var(--display-weight);font-size:clamp(30px,4vw,58px);line-height:1.04;margin:0;color:var(--text);">A vision worth<br />losing everything for.</h2>
+      <div style="margin-top:34px;display:grid;gap:14px;max-width:340px;">
+        <div class="fact-row"><span class="fact-label">Genre</span><span class="fact-value">Drama · Thriller · Mystery</span></div>
+        <div class="fact-row"><span class="fact-label">Setting</span><span class="fact-value">Mathikettan Solai</span></div>
+        <div class="fact-row"><span class="fact-label">Release</span><span class="fact-value"><time datetime="{{ releaseDateIso }}">{{ releaseDateShort }}</time> · Theatres</span></div>
+      </div>
+    </div>
+    <div style="max-width:600px;">
+      <p class="story-copy"><span style="color:var(--text);font-weight:600;">Veera</span> is a troubled, obsessive photographer determined to prove his worth in a world that has long dismissed him.</p>
+      <p class="story-copy">Driven by ambition and haunted by a painful past, he ventures deep into <span style="color:var(--text);">Mathikettan Solai</span> — a mysterious reserve forest — to capture a rare and elusive natural phenomenon that could change his life forever.</p>
+      <p class="story-copy">But the deeper he goes, the more the forest begins to photograph him back.</p>
+      <div style="margin-top:30px;padding:20px 24px;border-left:2px solid var(--accent);background:var(--accent-soft);border-radius:0 12px 12px 0;">
+        <p style="font-family:var(--font-display);font-style:italic;font-size:clamp(19px,1.8vw,24px);line-height:1.4;margin:0;color:var(--text);">"He came to take one picture. The forest had other plans."</p>
+        <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--faint);margin-top:12px;">Director's note coming with the full media launch</div>
+      </div>
+    </div>
+  </div>
+</section>
+</x-dc>

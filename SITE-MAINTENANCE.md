@@ -4,7 +4,11 @@
 
 Edit `site-content.js` for release information, the hero video, navigation, booking cities and partners, social links, video cards, shorts, cast, and crew. The data is frozen at runtime so components cannot mutate the shared source accidentally.
 
-`index.html` should remain focused on page structure, presentation, long-form story copy, metadata, and component behavior. Its `releaseDate` and `heroVideoId` editor fields are optional overrides; blank values use `site-content.js`.
+`index.html` should remain focused on the page shell, metadata, and component behavior. Major sections are being moved incrementally into `*.dc.html` files; `StorySection.dc.html` and `TicketsSection.dc.html` are the first extracted sections. Keep each section's established ID and pass data through its `<dc-import>` attributes so navigation, deep links, and editor behavior stay stable.
+
+`component-resources.js` maps imported templates beside its own URL. This lets the same files load from the project root during local preview and from the active theme directory in WordPress. Add every new component filename to that map and to the component list in `scripts/verify-site.mjs`.
+
+The `releaseDate` and `heroVideoId` editor fields in `index.html` are optional overrides; blank values use `site-content.js`.
 
 After an update, run:
 

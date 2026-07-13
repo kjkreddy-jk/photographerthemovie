@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.3.0 — 2026-07-13
+
+- Began the modular section rollout by extracting the story and tickets sections into importable templates without changing their anchors or data bindings.
+- Added environment-aware component resource mapping so imports work from both the standalone site and the WordPress theme directory.
+- Expanded source and rendered-DOM checks to cover component availability, script order, section rendering and booking content.
+- Improved live-version failure diagnostics with observed version, server and cache response details.
+
 ## 1.2.0 — 2026-07-13
 
 - Extracted repeated containers, section headings, release badges, countdown units, story facts, footer typography and external-link icons into reusable CSS primitives.
