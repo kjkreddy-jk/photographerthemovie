@@ -1,0 +1,16 @@
+<x-dc>
+<header class="site-header" data-mobile-open="{{ mobileNavOpen }}" style="transform:{{ navTransform }};opacity:{{ navOpacity }};pointer-events:{{ navPE }};">
+  <div class="site-header-inner">
+    <a class="site-brand" href="#top" onClick="{{ closeMobileNav }}">{{ filmTitle }}</a>
+    <button ref="{{ mobileNavButtonRef }}" class="mobile-nav-toggle" type="button" onClick="{{ toggleMobileNav }}" aria-expanded="{{ mobileNavOpen }}" aria-controls="primary-navigation" aria-label="{{ mobileNavLabel }}">
+      <span></span><span></span><span></span>
+    </button>
+    <nav id="primary-navigation" class="site-nav" aria-label="Primary navigation">
+      <sc-for list="{{ navLinks }}" as="lk" hint-placeholder-count="6">
+        <a class="site-nav-link" href="{{ lk.h }}" onClick="{{ lk.onClick }}">{{ lk.l }}</a>
+      </sc-for>
+    </nav>
+    <a class="site-header-cta" href="#tickets" onClick="{{ closeMobileNav }}">Book Tickets</a>
+  </div>
+</header>
+</x-dc>

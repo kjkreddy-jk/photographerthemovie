@@ -18,7 +18,11 @@ const resourceSource = read('component-resources.js');
 const supportSource = read('support.js');
 const css = read('site.css');
 const version = read('VERSION').trim();
-const componentFiles = ['StorySection.dc.html', 'TicketsSection.dc.html'];
+const componentFiles = [
+  'HeaderSection.dc.html', 'HeroSection.dc.html', 'ReleaseSection.dc.html',
+  'StorySection.dc.html', 'TicketsSection.dc.html', 'VideosSection.dc.html',
+  'ShortsSection.dc.html', 'CastSection.dc.html', 'FooterSection.dc.html'
+];
 const componentTemplates = componentFiles.map(file => read(file));
 const allTemplates = [html, ...componentTemplates].join('\n');
 
@@ -65,6 +69,10 @@ const resourceScriptAt = html.indexOf('<script src="./component-resources.js" de
 const runtimeScriptAt = html.indexOf('<script src="./support.js" defer></script>');
 assert(contentScriptAt >= 0 && resourceScriptAt > contentScriptAt && runtimeScriptAt > resourceScriptAt, 'data and component resources must load before support.js');
 assert(!/<dc-import\b[^>]*\/>/.test(html), 'dc-import elements need explicit closing tags so sibling imports are not nested by the HTML parser');
+assert(html.includes('aria-expanded="{{ mobileNavOpen }}"') || componentTemplates.some(template => template.includes('aria-expanded="{{ mobileNavOpen }}"')), 'mobile navigation needs an aria-expanded state');
+assert(css.includes('@media (max-width:760px)') && css.includes('@media (prefers-reduced-motion:reduce)'), 'responsive and reduced-motion styles are required');
+assert(css.includes('.mobile-nav-toggle{display:none;width:44px;height:44px;'), 'mobile navigation toggle must retain a 44px touch target');
+assert(html.includes("this.state.mobileNavOpen && e.key === 'Escape'"), 'mobile navigation must close on Escape');
 assert(html.includes(`<meta name="site-version" content="${version}">`), 'HTML site-version does not match VERSION');
 assert(html.includes('<link rel="stylesheet" href="./site.css">'), 'site.css is not linked');
 assert(fs.existsSync(path.join(root, 'site-content.js')) && fs.existsSync(path.join(root, 'component-resources.js')) && fs.existsSync(path.join(root, 'support.js')) && fs.existsSync(path.join(root, 'site.css')), 'a linked local asset is missing');
@@ -97,6 +105,9 @@ for (const declaration of extractedStyles) {
 
 const ids = [...allTemplates.matchAll(/\bid="([^"]+)"/g)].map(match => match[1]);
 assert(new Set(ids).size === ids.length, 'page templates contain duplicate IDs');
+for (const item of content.navigation) {
+  assert(ids.includes(item.href.slice(1)), `navigation target is missing: ${item.href}`);
+}
 for (const match of allTemplates.matchAll(/<button\b[^>]*>/g)) {
   assert(/\btype="(?:button|submit|reset)"/.test(match[0]), 'every button needs an explicit valid type');
 }

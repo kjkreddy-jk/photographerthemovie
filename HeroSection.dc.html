@@ -1,0 +1,20 @@
+<x-dc>
+<section id="top" style="position:relative;min-height:clamp(560px,92vh,1000px);display:flex;align-items:flex-end;overflow:hidden;scroll-margin-top:74px;background:var(--bg);">
+  <div style="position:absolute;inset:0;overflow:hidden;background:#050706;pointer-events:none;">
+    <iframe ref="{{ bgRef }}" title="Photographer trailer background" aria-hidden="true" tabindex="-1" referrerpolicy="strict-origin-when-cross-origin" allow="autoplay; encrypted-media" style="position:absolute;top:50%;left:50%;width:max(100vw,177.78vh);height:max(56.25vw,100vh);transform:translate(-50%,-50%);border:0;pointer-events:none;"></iframe>
+  </div>
+  <div style="position:absolute;inset:0;background:linear-gradient(to top, var(--bg) 0%, rgba(5,10,7,0.92) 20%, rgba(5,10,7,0.55) 52%, rgba(5,10,7,0.42) 100%);"></div>
+  <div style="position:absolute;inset:0;background:radial-gradient(58% 55% at 10% 98%, var(--accent-soft), transparent 60%);mix-blend-mode:screen;"></div>
+  <button type="button" onClick="{{ toggleMute }}" aria-label="{{ soundLabel }}" aria-pressed="{{ soundOn }}" style="position:absolute;right:clamp(18px,4vw,44px);bottom:clamp(22px,4vh,40px);z-index:3;width:52px;height:52px;padding:0;border-radius:999px;border:1px solid rgba(255,255,255,0.32);background:rgba(5,10,7,0.5);backdrop-filter:blur(8px);color:#fff;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;" style-hover="border-color:var(--accent);background:rgba(5,10,7,0.72);">
+    <sc-if value="{{ muted }}" hint-placeholder-val="{{ true }}">
+      <span style="display:block;width:22px;height:22px;background-color:currentColor;-webkit-mask:url(&quot;data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2024%2024'%3E%3Cpath%20d='M3%209.5v5h3.5l5%204v-13l-5%204H3z'%20fill='black'/%3E%3Cpath%20d='M16%209.5l5.5%205.5M21.5%209.5l-5.5%205.5'%20fill='none'%20stroke='black'%20stroke-width='2'%20stroke-linecap='round'/%3E%3C/svg%3E&quot;) center/contain no-repeat;mask:url(&quot;data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2024%2024'%3E%3Cpath%20d='M3%209.5v5h3.5l5%204v-13l-5%204H3z'%20fill='black'/%3E%3Cpath%20d='M16%209.5l5.5%205.5M21.5%209.5l-5.5%205.5'%20fill='none'%20stroke='black'%20stroke-width='2'%20stroke-linecap='round'/%3E%3C/svg%3E&quot;) center/contain no-repeat;"></span>
+    </sc-if>
+    <sc-if value="{{ soundOn }}" hint-placeholder-val="{{ false }}">
+      <span style="display:block;width:22px;height:22px;background-color:currentColor;-webkit-mask:url(&quot;data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2024%2024'%3E%3Cpath%20d='M3%209.5v5h3.5l5%204v-13l-5%204H3z'%20fill='black'/%3E%3Cpath%20d='M15.5%209a4.5%204.5%200%200%201%200%206'%20fill='none'%20stroke='black'%20stroke-width='2'%20stroke-linecap='round'/%3E%3Cpath%20d='M18.5%206.5a8%208%200%200%201%200%2011'%20fill='none'%20stroke='black'%20stroke-width='2'%20stroke-linecap='round'/%3E%3C/svg%3E&quot;) center/contain no-repeat;mask:url(&quot;data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2024%2024'%3E%3Cpath%20d='M3%209.5v5h3.5l5%204v-13l-5%204H3z'%20fill='black'/%3E%3Cpath%20d='M15.5%209a4.5%204.5%200%200%201%200%206'%20fill='none'%20stroke='black'%20stroke-width='2'%20stroke-linecap='round'/%3E%3Cpath%20d='M18.5%206.5a8%208%200%200%201%200%2011'%20fill='none'%20stroke='black'%20stroke-width='2'%20stroke-linecap='round'/%3E%3C/svg%3E&quot;) center/contain no-repeat;"></span>
+    </sc-if>
+  </button>
+  <div style="position:relative;width:100%;max-width:1360px;margin:0 auto;padding:0 clamp(18px,4vw,44px) clamp(44px,6vw,84px);animation:fadeUp .8s ease both;">
+    <h1 style="font-family:var(--font-display);font-weight:800;text-transform:uppercase;letter-spacing:-0.02em;line-height:0.86;font-size:clamp(44px,9vw,68px);margin:0;color:#fff;">{{ filmTitle }}</h1>
+  </div>
+</section>
+</x-dc>

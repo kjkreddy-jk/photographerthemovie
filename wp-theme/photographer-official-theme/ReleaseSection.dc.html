@@ -1,0 +1,29 @@
+<x-dc>
+<section id="release" style="background:var(--bg);border-bottom:1px solid var(--border);padding:clamp(30px,4.5vw,54px) 0;scroll-margin-top:74px;">
+  <h2 class="sr-only">Release information</h2>
+  <div class="site-container" style="display:flex;justify-content:space-between;align-items:center;gap:clamp(28px,5vw,64px);flex-wrap:wrap;">
+    <div style="display:flex;flex-direction:column;gap:22px;min-width:min(100%,300px);">
+      <div style="display:flex;gap:9px;flex-wrap:wrap;">
+        <span class="release-badge">{{ releaseYear }}</span>
+        <span class="release-badge">{{ contentRating }}</span>
+        <span class="release-badge">DRAMA</span>
+        <span class="release-badge">THRILLER</span>
+        <span class="release-badge">MYSTERY</span>
+      </div>
+      <div style="display:flex;gap:14px;flex-wrap:wrap;align-items:center;">
+        <a href="#tickets" style="padding:18px 40px;border-radius:999px;background:var(--accent);color:var(--accent-ink);font-weight:700;font-size:17px;letter-spacing:0.02em;">Book Tickets</a>
+        <button class="trailer-button" type="button" onClick="{{ openTrailer }}" style="padding:18px 34px;border-radius:999px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-weight:600;font-size:17px;cursor:pointer;display:inline-flex;align-items:center;gap:11px;" style-hover="border-color:var(--accent);">▶ Watch Trailer</button>
+      </div>
+    </div>
+    <div>
+      <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.24em;text-transform:uppercase;color:var(--accent);margin-bottom:14px;">In cinemas · <time datetime="{{ releaseDateIso }}">{{ releaseDateLong }}</time></div>
+      <div role="timer" aria-label="Time remaining until theatrical release" style="display:flex;gap:10px;">
+        <div class="countdown-unit"><div class="countdown-value">{{ cd.d }}</div><div class="countdown-label">Days</div></div>
+        <div class="countdown-unit"><div class="countdown-value">{{ cd.h }}</div><div class="countdown-label">Hrs</div></div>
+        <div class="countdown-unit"><div class="countdown-value">{{ cd.m }}</div><div class="countdown-label">Min</div></div>
+        <div class="countdown-unit"><div class="countdown-value">{{ cd.s }}</div><div class="countdown-label">Sec</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+</x-dc>

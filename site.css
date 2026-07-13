@@ -1,4 +1,4 @@
-/* Shared shell styles. Section-specific inline styles remain in index.html until their component extraction phase. */
+/* Shared shell and reusable component styles. Section templates retain intentional one-off layout values. */
 *{box-sizing:border-box;}
 html{scroll-behavior:smooth;}
 body{margin:0;background:#0a0e0b;color:#e9efe9;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
@@ -33,3 +33,27 @@ a:focus-visible,button:focus-visible,input:focus-visible,[tabindex="0"]:focus-vi
 .footer-heading{font-family:var(--font-mono);font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);margin-bottom:16px;}
 .footer-meta{font-family:var(--font-mono);font-size:11px;letter-spacing:.08em;color:var(--faint);}
 .external-icon{display:inline-block;width:11px;height:11px;vertical-align:-1px;margin-left:5px;background-color:currentColor;opacity:.72;-webkit-mask:url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2024%2024'%3E%3Cpath%20d='M7%2017L17%207M8.5%207H17V15.5'%20fill='none'%20stroke='black'%20stroke-width='2.4'%20stroke-linecap='round'%20stroke-linejoin='round'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2024%2024'%3E%3Cpath%20d='M7%2017L17%207M8.5%207H17V15.5'%20fill='none'%20stroke='black'%20stroke-width='2.4'%20stroke-linecap='round'%20stroke-linejoin='round'/%3E%3C/svg%3E") center/contain no-repeat;}
+
+/* Responsive site header. Component state only controls visibility; layout stays in CSS. */
+.site-header{position:fixed;top:0;left:0;right:0;z-index:50;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);background:color-mix(in srgb,var(--bg) 84%,transparent);border-bottom:1px solid var(--border);transition:transform .35s ease,opacity .3s ease;}
+.site-header-inner{position:relative;max-width:1360px;margin:0 auto;padding:13px clamp(18px,4vw,44px);display:flex;align-items:center;gap:18px;}
+.site-brand{font-family:var(--font-display);font-weight:800;text-transform:uppercase;letter-spacing:.02em;font-size:clamp(15px,1.4vw,19px);color:var(--text);}
+.site-nav{display:flex;gap:clamp(12px,1.7vw,26px);margin-left:auto;align-items:center;}
+.site-nav-link{font-size:13px;font-weight:500;letter-spacing:.04em;color:var(--muted);}
+.site-header-cta{padding:12px 24px;border-radius:999px;background:var(--accent);color:var(--accent-ink);font-weight:600;font-size:14px;letter-spacing:.02em;}
+.site-header-cta:hover{color:var(--accent-ink);filter:brightness(1.06);}
+.mobile-nav-toggle{display:none;width:44px;height:44px;margin-left:auto;padding:10px;border:1px solid var(--border);border-radius:10px;background:var(--surface);color:var(--text);cursor:pointer;}
+.mobile-nav-toggle span{display:block;height:2px;margin:4px 0;border-radius:2px;background:currentColor;transition:transform .2s ease,opacity .2s ease;}
+
+@media (max-width:760px){
+  .site-header-inner{min-height:70px;gap:12px;}
+  .mobile-nav-toggle{display:block;}
+  .site-header-cta{display:none;}
+  .site-nav{position:absolute;top:calc(100% + 1px);left:0;right:0;display:grid;gap:0;margin:0;padding:8px clamp(18px,4vw,44px) 16px;background:color-mix(in srgb,var(--bg) 96%,transparent);border-bottom:1px solid var(--border);box-shadow:0 20px 40px rgba(0,0,0,.28);visibility:hidden;opacity:0;transform:translateY(-8px);pointer-events:none;transition:visibility .2s ease,opacity .2s ease,transform .2s ease;}
+  .site-nav-link{padding:13px 4px;border-bottom:1px solid var(--border);font-size:15px;color:var(--text);}
+  .site-nav-link:last-child{border-bottom:0;}
+  .site-header[data-mobile-open="true"] .site-nav{visibility:visible;opacity:1;transform:translateY(0);pointer-events:auto;}
+  .site-header[data-mobile-open="true"] .mobile-nav-toggle span:nth-child(1){transform:translateY(6px) rotate(45deg);}
+  .site-header[data-mobile-open="true"] .mobile-nav-toggle span:nth-child(2){opacity:0;}
+  .site-header[data-mobile-open="true"] .mobile-nav-toggle span:nth-child(3){transform:translateY(-6px) rotate(-45deg);}
+}

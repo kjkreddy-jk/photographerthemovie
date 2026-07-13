@@ -1,0 +1,31 @@
+<x-dc>
+<section id="cast" style="padding:clamp(64px,9vw,140px) 0;background:var(--bg);scroll-margin-top:74px;">
+  <div class="site-container">
+    <div class="section-kicker">The People</div>
+    <h2 class="section-heading" style="margin-bottom:40px;">Cast &amp; Crew</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:clamp(18px,2.4vw,30px);">
+      <sc-for list="{{ cast }}" as="p" hint-placeholder-count="5">
+        <div>
+          <div style="position:relative;aspect-ratio:4 / 5;border-radius:16px;overflow:hidden;border:1px solid var(--border);background:repeating-linear-gradient(135deg, var(--stripe) 0 11px, transparent 11px 22px), var(--surface-2);box-shadow:var(--shadow);">
+            <span style="position:absolute;left:13px;top:12px;font-family:var(--font-mono);font-size:11px;letter-spacing:0.1em;color:var(--faint);">portrait</span>
+            <span style="position:absolute;left:13px;bottom:12px;font-family:var(--font-mono);font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent);background:var(--accent-soft);padding:4px 9px;border-radius:6px;">{{ p.tag }}</span>
+          </div>
+          <div style="padding:14px 2px 0;">
+            <div style="font-family:var(--font-display);font-weight:var(--display-weight);font-size:24px;line-height:1.05;color:var(--text);">{{ p.name }}</div>
+            <div style="font-size:13px;color:var(--muted);margin-top:3px;">{{ p.role }}</div>
+            <div style="display:flex;gap:7px;flex-wrap:wrap;margin-top:12px;">
+              <sc-for list="{{ p.socials }}" as="s" hint-placeholder-count="0"><a href="{{ s.h }}" target="_blank" rel="noopener noreferrer" style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.04em;padding:5px 10px;border:1px solid var(--border);border-radius:7px;color:var(--muted);" style-hover="border-color:var(--accent);color:var(--text);">{{ s.l }}<span class="external-icon"></span></a></sc-for>
+            </div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+    <div style="margin-top:clamp(40px,5vw,72px);padding-top:clamp(30px,4vw,48px);border-top:1px solid var(--border);">
+      <div style="font-family:var(--font-mono);font-size:12px;letter-spacing:0.24em;text-transform:uppercase;color:var(--faint);margin-bottom:24px;">Crew</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:0 clamp(30px,5vw,72px);">
+        <sc-for list="{{ crew }}" as="c" hint-placeholder-count="8"><div style="display:flex;justify-content:space-between;align-items:baseline;gap:20px;padding:16px 0;border-bottom:1px solid var(--border);"><span style="font-family:var(--font-mono);font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:var(--faint);">{{ c.role }}</span><span style="font-size:15px;color:var(--muted);font-style:italic;text-align:right;">{{ c.name }}</span></div></sc-for>
+      </div>
+    </div>
+  </div>
+</section>
+</x-dc>

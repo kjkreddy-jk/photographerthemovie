@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.4.0 — 2026-07-13
+
+- Completed the modular rollout for the header, hero, release, story, tickets, videos, shorts, cast and footer sections.
+- Added a responsive mobile navigation menu with accessible state, 44-pixel touch target, link and Escape dismissal, focus return and resize cleanup.
+- Preserved desktop header hiding, content bindings, section anchors, modal behavior and WordPress cache-busted component loading.
+- Expanded verification coverage for all component resources, responsive styles and rendered mobile-menu interactions.
+
 ## 1.3.0 — 2026-07-13
 
 - Began the modular section rollout by extracting the story and tickets sections into importable templates without changing their anchors or data bindings.

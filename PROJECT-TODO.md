@@ -12,8 +12,8 @@ Statuses: `DONE`, `IN PROGRESS`, `NEXT`, `BLOCKED`, `LATER`.
 | DONE | Extract shared shell CSS | `site.css` loads before the component renders |
 | DONE | Reproducible WordPress build and publish workflow | Theme directory and ZIP are synchronized and documented |
 | DONE | Extract repeated inline component styles | Structural, CSS and keyboard-related markup checks pass |
-| IN PROGRESS | Split major sections into importable components | Story and tickets are extracted; existing anchors, bindings and modal behavior remain unchanged |
-| NEXT | Responsive mobile navigation | Keyboard, touch and reduced-motion checks pass |
+| DONE | Split major sections into importable components | Header, content sections and footer are independently importable; anchors, bindings and modal behavior remain unchanged |
+| DONE | Responsive mobile navigation | Keyboard, touch-size, Escape handling and reduced-motion checks pass |
 | LATER | Responsive local image pipeline | AVIF/WebP fallbacks, dimensions and lazy loading verified |
 | BLOCKED | Real notification subscription | Requires provider choice, privacy copy and API credentials |
 | LATER | CMS or structured editorial workflow | Content validation and preview workflow agreed |

@@ -1,0 +1,19 @@
+<x-dc>
+<section id="videos" style="padding:clamp(56px,8vw,120px) 0;background:var(--bg);scroll-margin-top:74px;">
+  <div class="site-container"><div class="media-heading-row"><div><div class="section-kicker">Watch</div><h2 class="section-heading">Trailers &amp; Videos</h2></div><span style="font-family:var(--font-mono);font-size:12px;letter-spacing:0.1em;color:var(--faint);">scroll →</span></div></div>
+  <div tabindex="0" aria-label="Trailers and videos carousel" style="max-width:1360px;margin:0 auto;padding:4px clamp(18px,4vw,44px) 8px;display:flex;gap:18px;overflow-x:auto;scroll-snap-type:x proximity;scrollbar-width:thin;scrollbar-color:var(--border) transparent;">
+    <sc-for list="{{ trailers }}" as="v" hint-placeholder-count="5">
+      <button type="button" onClick="{{ v.onClick }}" style="flex:0 0 clamp(280px,27vw,380px);scroll-snap-align:start;text-align:left;cursor:pointer;background:transparent;padding:0;">
+        <div style="position:relative;aspect-ratio:16 / 9;border-radius:16px;overflow:hidden;border:1px solid var(--border);background:repeating-linear-gradient(135deg, var(--stripe) 0 11px, transparent 11px 22px), var(--surface-2);box-shadow:var(--shadow);transition:transform .25s ease,border-color .25s ease;" style-hover="transform:translateY(-4px);border-color:var(--accent);">
+          <sc-if value="{{ v.thumb }}" hint-placeholder-val="{{ false }}"><img ref="{{ v.thumbRef }}" alt="" loading="lazy" decoding="async" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;" /></sc-if>
+          <sc-if value="{{ v.striped }}" hint-placeholder-val="{{ true }}"><span style="position:absolute;left:14px;top:13px;font-family:var(--font-mono);font-size:11px;letter-spacing:0.12em;color:var(--faint);text-transform:lowercase;">{{ v.cap }}</span></sc-if>
+          <div style="position:absolute;inset:0;background:linear-gradient(to top, rgba(0,0,0,0.5), transparent 55%);"></div>
+          <span style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:52px;height:52px;border-radius:999px;background:rgba(0,0,0,0.42);border:1.5px solid rgba(255,255,255,0.75);color:#fff;display:flex;align-items:center;justify-content:center;font-size:15px;backdrop-filter:blur(4px);">▶</span>
+          <span style="position:absolute;right:11px;bottom:11px;font-family:var(--font-mono);font-size:11px;color:#fff;background:rgba(0,0,0,0.6);padding:3px 8px;border-radius:6px;">{{ v.dur }}</span>
+        </div>
+        <div style="padding:14px 4px 0;"><div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);margin-bottom:7px;">{{ v.kind }}</div><div style="font-size:16px;font-weight:600;color:var(--text);line-height:1.3;">{{ v.title }}</div></div>
+      </button>
+    </sc-for>
+  </div>
+</section>
+</x-dc>

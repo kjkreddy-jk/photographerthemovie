@@ -7,7 +7,8 @@ $root = Split-Path -Parent $PSScriptRoot
 $themeDir = Join-Path $root 'wp-theme\photographer-official-theme'
 $zipPath = Join-Path $root 'wp-theme\photographer-official-theme.zip'
 $version = (Get-Content -Raw (Join-Path $root 'VERSION')).Trim()
-$sharedFiles = @('index.html', 'site.css', 'site-content.js', 'component-resources.js', 'support.js', 'VERSION', 'StorySection.dc.html', 'TicketsSection.dc.html')
+$componentFiles = @('HeaderSection.dc.html', 'HeroSection.dc.html', 'ReleaseSection.dc.html', 'StorySection.dc.html', 'TicketsSection.dc.html', 'VideosSection.dc.html', 'ShortsSection.dc.html', 'CastSection.dc.html', 'FooterSection.dc.html')
+$sharedFiles = @('index.html', 'site.css', 'site-content.js', 'component-resources.js', 'support.js', 'VERSION') + $componentFiles
 
 function Assert-Condition {
     param([bool]$Condition, [string]$Message)
