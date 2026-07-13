@@ -64,6 +64,10 @@ socket.onmessage = event => {
         storySection: !!pick('#story'),
         ticketsSection: !!pick('#tickets'),
         storyRelease: pick('#story time')?.textContent,
+        contentRatingVisible: document.body.innerText.includes('U/13'),
+        contactHref: pick('a[href="mailto:support@photographerthemovie.com"]')?.getAttribute('href'),
+        subscriptionHref: pick('#notification-email-link')?.getAttribute('href'),
+        heroPosterLoaded: pick('#top picture img')?.complete && pick('#top picture img')?.naturalWidth > 0,
         ticketCityCount: document.querySelectorAll('#tickets .ticket-city').length,
         componentErrors: [...document.querySelectorAll('.sc-placeholder-error')].map(element => element.textContent),
         componentRequests: performance.getEntriesByType('resource').map(entry => entry.name).filter(name => name.includes('.dc.html')),
@@ -110,7 +114,11 @@ socket.onmessage = event => {
       && initial.sectionCount === 7
       && initial.storySection
       && initial.ticketsSection
-      && initial.storyRelease === '15 Aug 2026'
+      && initial.storyRelease === '7 Aug 2026'
+      && initial.contentRatingVisible
+      && initial.contactHref === 'mailto:support@photographerthemovie.com'
+      && initial.subscriptionHref?.startsWith('mailto:support@photographerthemovie.com?subject=')
+      && initial.heroPosterLoaded
       && initial.ticketCityCount === 6
       && initial.componentErrors.length === 0
       && initial.componentRequests.length === 9
@@ -312,9 +320,7 @@ socket.onmessage = event => {
       window.__notificationFetchCount = 0;
       const originalFetch = window.fetch;
       window.fetch = (...args) => { window.__notificationFetchCount += 1; return originalFetch(...args); };
-      const input = document.querySelector('#notification-email');
-      input.value = 'render-check@example.test';
-      input.closest('form').requestSubmit();
+      document.querySelector('.notification-request-button').click();
       return true;
     })()`);
     return;
@@ -324,7 +330,7 @@ socket.onmessage = event => {
     setTimeout(() => evaluate(20, `(() => ({
       status: document.querySelector('#notification-status')?.textContent.trim(),
       fetchCount: window.__notificationFetchCount,
-      valueRetained: document.querySelector('#notification-email')?.value
+      emailLinkFocused: document.activeElement === document.querySelector('#notification-email-link')
     }))()`), 100);
     return;
   }
@@ -333,9 +339,9 @@ socket.onmessage = event => {
     results.notificationDisabled = message.result?.result?.value;
     const notification = results.notificationDisabled;
     finish(!!(notification
-      && notification.status === 'Notification signup is not connected yet. No email address was sent.'
+      && notification.status === 'Email support@photographerthemovie.com to request release updates.'
       && notification.fetchCount === 0
-      && notification.valueRetained === 'render-check@example.test'));
+      && notification.emailLinkFocused));
   }
 };
 

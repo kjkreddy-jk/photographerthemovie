@@ -32,7 +32,7 @@ Social crawlers generally do not execute `site-content.js`. When the confirmed r
 
 ## Images and notification delivery
 
-Approved high-resolution image originals belong in `assets/source` at the paths declared by `content/image-sources.json`. Run `node .\scripts\build-images.mjs`, then its `--check` mode, before packaging. Generated variants are copied into the WordPress package automatically. Do not substitute unapproved or upscaled campaign artwork.
+Approved high-resolution image originals live in `assets/img` at the paths declared by `content/image-sources.json`. Run `node .\scripts\build-images.mjs`, then its `--check` mode, before packaging. Generated variants are copied into the WordPress package automatically. Do not substitute unapproved or upscaled campaign artwork.
 
 Notification delivery is fail-closed until all fields are configured. Follow `NOTIFICATION-INTEGRATION.md`; provider credentials and mailing-list operations stay server-side.
 

@@ -8,20 +8,20 @@
 <meta name="description" content="Official website for Photographer, a forest-set drama thriller following an obsessive artist chasing a life-changing image in Mathikettan Solai.">
 <meta name="robots" content="index,follow">
 <meta name="theme-color" content="#0a0e0b">
-<meta name="site-version" content="1.6.0">
+<meta name="site-version" content="1.7.0">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230a0e0b'/%3E%3Ccircle cx='32' cy='32' r='17' fill='none' stroke='%23a9d5b7' stroke-width='6'/%3E%3Ccircle cx='32' cy='32' r='6' fill='%23a9d5b7'/%3E%3C/svg%3E">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Photographer | Official Movie Site">
 <meta property="og:description" content="A forest-set drama thriller about obsession, ambition and the image that can change everything.">
 <meta property="og:url" content="https://photographerthemovie.com/">
 <meta property="og:site_name" content="Photographer">
-<meta property="og:image" content="https://img.youtube.com/vi/0c78E4Fr-OI/maxresdefault.jpg">
-<meta property="og:image:alt" content="Photographer official trailer artwork">
+<meta property="og:image" content="https://photographerthemovie.com/wp-content/themes/photographer-official-theme/assets/generated/share-poster-1920.jpg">
+<meta property="og:image:alt" content="Photographer official title artwork surrounded by camera and expedition equipment">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Photographer | Official Movie Site">
 <meta name="twitter:description" content="Official website for Photographer, a forest-set drama thriller set in Mathikettan Solai.">
-<meta name="twitter:image" content="https://img.youtube.com/vi/0c78E4Fr-OI/maxresdefault.jpg">
-<meta name="twitter:image:alt" content="Photographer official trailer artwork">
+<meta name="twitter:image" content="https://photographerthemovie.com/wp-content/themes/photographer-official-theme/assets/generated/share-poster-1920.jpg">
+<meta name="twitter:image:alt" content="Photographer official title artwork surrounded by camera and expedition equipment">
 <link rel="canonical" href="https://photographerthemovie.com/">
 <script type="application/ld+json">
 {
@@ -31,9 +31,9 @@
   "url": "https://photographerthemovie.com/",
   "description": "A forest-set drama thriller about an obsessive photographer who enters Mathikettan Solai chasing a life-changing image.",
   "genre": ["Drama", "Thriller", "Mystery"],
-  "datePublished": "2026-08-15",
-  "contentRating": "U/A",
-  "image": "https://img.youtube.com/vi/0c78E4Fr-OI/maxresdefault.jpg",
+  "datePublished": "2026-08-07",
+  "contentRating": "U/13",
+  "image": "https://photographerthemovie.com/wp-content/themes/photographer-official-theme/assets/generated/share-poster-1920.jpg",
   "sameAs": [
     "https://www.instagram.com/photographerthemovie/",
     "https://www.facebook.com/PhotographerTheMovie"
@@ -75,7 +75,7 @@
 <dc-import name="ShortsSection" shorts="{{ shorts }}" film-instagram-href="{{ filmInstagramHref }}"></dc-import>
 <dc-import name="CastSection" cast="{{ cast }}" crew="{{ crew }}"></dc-import>
 </main>
-<dc-import name="FooterSection" film-title="{{ filmTitle }}" release-year="{{ releaseYear }}" content-rating="{{ contentRating }}" site-version="{{ siteVersion }}" footer-socials="{{ footerSocials }}" notify="{{ notify }}" notification-busy="{{ notificationBusy }}" notification-status="{{ notificationStatus }}" notification-configured="{{ notificationConfigured }}" notification-consent-text="{{ notificationConsentText }}" notification-privacy-url="{{ notificationPrivacyUrl }}"></dc-import>
+<dc-import name="FooterSection" film-title="{{ filmTitle }}" release-year="{{ releaseYear }}" content-rating="{{ contentRating }}" site-version="{{ siteVersion }}" footer-socials="{{ footerSocials }}" notify="{{ notify }}" notification-busy="{{ notificationBusy }}" notification-status="{{ notificationStatus }}" notification-configured="{{ notificationConfigured }}" notification-email-mode="{{ notificationEmailMode }}" notification-consent-text="{{ notificationConsentText }}" notification-privacy-url="{{ notificationPrivacyUrl }}" contact-email="{{ contactEmail }}" subscription-mailto="{{ subscriptionMailto }}"></dc-import>
 <sc-if value="{{ modalOpen }}" hint-placeholder-val="{{ false }}">
   <div ref="{{ modalDialogRef }}" role="dialog" aria-modal="true" aria-labelledby="modal-title" onClick="{{ closeModal }}" style="position:fixed;inset:0;z-index:100;background:rgba(0,0,0,0.85);backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;padding:24px;animation:mfade .22s ease;">
     <h2 id="modal-title" class="sr-only">{{ modalTitle }}</h2>
@@ -219,8 +219,9 @@ class Component extends DCLogic {
     if (content && content.film) return content;
     // Defensive fallback: keep the shell usable if the optional content asset fails to load.
     return {
-      build: { version: '1.6.0' },
-      film: { title: 'Photographer', releaseDate: '2026-08-15', contentRating: 'U/A', releaseFormat: '2D', heroVideoId: '0c78E4Fr-OI' },
+      build: { version: '1.7.0' },
+      film: { title: 'Photographer', releaseDate: '2026-08-07', contentRating: 'U/13', releaseFormat: '2D', heroVideoId: '0c78E4Fr-OI' },
+      contact: { email: 'support@photographerthemovie.com' },
       navigation: [],
       booking: { cities: [], partners: [] },
       notifications: { enabled: false, endpoint: '', privacyUrl: '', consentText: '' },
@@ -282,17 +283,19 @@ class Component extends DCLogic {
     }
   }
   requestNotification() {
-    const input = document.getElementById('notification-email');
-    if (input && typeof input.focus === 'function') {
-      input.focus();
-      if (typeof input.scrollIntoView === 'function') input.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    const target = this.notificationConfig().configured
+      ? document.getElementById('notification-email')
+      : document.getElementById('notification-email-link');
+    if (target && typeof target.focus === 'function') {
+      target.focus();
+      if (typeof target.scrollIntoView === 'function') target.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
     if (!this.notificationConfig().configured) {
-      this.setState({ notificationStatus: 'Notification signup is not connected yet. No email address was sent.' });
+      this.setState({ notificationStatus: 'Email ' + this.siteContent().contact.email + ' to request release updates.' });
     }
   }
   releaseInfo() {
-    const defaultDate = this.siteContent().film.releaseDate || '2026-08-15';
+    const defaultDate = this.siteContent().film.releaseDate || '2026-08-07';
     const candidate = this.props.releaseDate || defaultDate;
     const parsed = new Date(candidate + 'T00:00:00Z');
     const valid = /^\d{4}-\d{2}-\d{2}$/.test(candidate) && !Number.isNaN(parsed.getTime()) && parsed.toISOString().slice(0, 10) === candidate;
@@ -462,8 +465,13 @@ class Component extends DCLogic {
       notificationBusy: this.state.notificationBusy,
       notificationStatus: this.state.notificationStatus,
       notificationConfigured: this.notificationConfig().configured,
+      notificationEmailMode: !this.notificationConfig().configured && !!content.contact.email,
       notificationConsentText: this.notificationConfig().consentText,
       notificationPrivacyUrl: this.notificationConfig().privacyUrl,
+      contactEmail: content.contact.email,
+      subscriptionMailto: 'mailto:' + content.contact.email
+        + '?subject=' + encodeURIComponent('Photographer release updates subscription')
+        + '&body=' + encodeURIComponent('Please add this email address to the Photographer movie release-updates list.'),
       modalOpen: !!m,
       modalBoxStyle: box,
       modalIframe: m && m.videoId ? true : false,

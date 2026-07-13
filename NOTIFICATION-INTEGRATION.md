@@ -1,6 +1,6 @@
 # Notification provider integration
 
-The browser client is deliberately disabled until the production service and privacy language are reviewed. In this state, submitting the form displays an inline message and sends no email address.
+The automated browser client is deliberately disabled until the production service and privacy language are reviewed. In this state, the site offers a direct subscription-request link to `support@photographerthemovie.com`; the visitor chooses whether to send the message through their email application, and the website transmits no address automatically.
 
 ## Provider contract
 

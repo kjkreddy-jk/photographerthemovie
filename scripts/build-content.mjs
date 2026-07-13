@@ -18,6 +18,8 @@ requiredText(source.build?.version, 'build.version');
 if (!/^\d+\.\d+\.\d+$/.test(source.build.version)) fail('build.version must be semantic');
 requiredText(source.film?.title, 'film.title');
 requiredText(source.film?.heroVideoId, 'film.heroVideoId');
+requiredText(source.contact?.email, 'contact.email');
+if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(source.contact.email)) fail('contact.email must be a valid email address');
 if (!/^\d{4}-\d{2}-\d{2}$/.test(source.film?.releaseDate || '')) fail('film.releaseDate must use YYYY-MM-DD');
 if (new Date(`${source.film.releaseDate}T00:00:00Z`).toISOString().slice(0, 10) !== source.film.releaseDate) fail('film.releaseDate is not a real date');
 if (!Array.isArray(source.navigation) || !source.navigation.length) fail('navigation needs at least one item');

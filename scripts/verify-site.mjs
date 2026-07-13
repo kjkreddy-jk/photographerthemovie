@@ -57,6 +57,7 @@ assert(Object.isFrozen(content) && Object.isFrozen(content.cast), 'campaign data
 assert(/^\d{4}-\d{2}-\d{2}$/.test(content.film.releaseDate), 'releaseDate must use YYYY-MM-DD');
 assert(new Date(content.film.releaseDate + 'T00:00:00Z').toISOString().slice(0, 10) === content.film.releaseDate, 'releaseDate is not a real calendar date');
 assert(content.film.heroVideoId, 'heroVideoId is required');
+assert(content.contact?.email === 'support@photographerthemovie.com', 'public contact email changed unexpectedly');
 assert(new Set(content.navigation.map(item => item.href)).size === content.navigation.length, 'navigation href values must be unique');
 for (const item of content.navigation) {
   assert(item.label && /^#[a-z][\w-]*$/i.test(item.href), 'navigation items need a label and a valid section href');
@@ -88,6 +89,9 @@ assert(html.includes("body: JSON.stringify({ email, consent: true, source: 'webs
 assert(html.includes("if (!config.configured)"), 'notification client must fail closed when configuration is incomplete');
 assert(componentTemplates.some(template => template.includes('role="status"') && template.includes('aria-live="polite"')), 'notification feedback needs an accessible live region');
 assert(html.includes(`<meta name="site-version" content="${version}">`), 'HTML site-version does not match VERSION');
+assert(html.includes('"datePublished": "2026-08-07"'), 'static release metadata is stale');
+assert(html.includes('"contentRating": "U/13"'), 'static certification metadata is stale');
+assert(html.includes('assets/generated/share-poster-1920.jpg'), 'static share artwork is not configured');
 assert(html.includes('<link rel="stylesheet" href="./site.css">'), 'site.css is not linked');
 assert(fs.existsSync(path.join(root, 'site-content.js')) && fs.existsSync(path.join(root, 'component-resources.js')) && fs.existsSync(path.join(root, 'support.js')) && fs.existsSync(path.join(root, 'site.css')), 'a linked local asset is missing');
 for (const command of ['npm test', 'images:test', 'check-render.ps1', 'build-theme.ps1 -CheckOnly', 'check-lighthouse.ps1']) {
@@ -157,6 +161,9 @@ assert(values.shorts.length === content.shorts.length, 'short card count changed
 assert(values.cast.length === content.cast.length, 'cast card count changed');
 assert(values.crew.length === content.crew.length, 'crew row count changed');
 assert(values.notificationConfigured === false, 'unconfigured notification client must remain disabled');
+assert(values.notificationEmailMode === true, 'contact-email subscription fallback must remain available');
+assert(values.contactEmail === content.contact.email, 'contact email binding changed');
+assert(values.subscriptionMailto.startsWith(`mailto:${content.contact.email}?subject=`), 'subscription email link changed');
 assert(values.notificationStatus === '', 'notification status must start empty');
 
 component.props = { releaseDate: '2027-01-02', heroVideoId: 'override-id' };

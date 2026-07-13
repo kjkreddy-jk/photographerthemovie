@@ -18,7 +18,7 @@ The live domain currently serves the `photographer-official-theme` WordPress the
    .\scripts\build-theme.ps1 -CheckOnly
    ```
 
-5. If approved source images are present, run `node .\scripts\build-images.mjs` before the theme build. Review `git diff`, commit the complete release, and create a matching tag:
+5. Run `node .\scripts\build-images.mjs` to rebuild variants from the approved `assets/img` repository before the theme build. Review `git diff`, commit the complete release, and create a matching tag:
 
    ```powershell
    git add .github .gitignore VERSION CHANGELOG.md PROJECT-TODO.md PUBLISHING.md SITE-MAINTENANCE.md CONTENT-EDITOR-GUIDE.md NOTIFICATION-INTEGRATION.md package.json package-lock.json content assets index.html site.css site-content.js component-resources.js *.dc.html scripts wp-theme

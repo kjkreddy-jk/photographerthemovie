@@ -10,7 +10,7 @@
       </sc-for>
     </div>
     <div style="display:flex;gap:13px;flex-wrap:wrap;justify-content:center;margin-top:34px;">
-      <button type="button" onClick="{{ notify }}" style="padding:19px 38px;border-radius:999px;background:var(--accent);color:var(--accent-ink);font-weight:700;font-size:17px;cursor:pointer;">Get Notified When Booking Opens</button>
+      <button class="notification-request-button" type="button" onClick="{{ notify }}" style="padding:19px 38px;border-radius:999px;background:var(--accent);color:var(--accent-ink);font-weight:700;font-size:17px;cursor:pointer;">Get Notified When Booking Opens</button>
       <sc-for list="{{ partners }}" as="p" hint-placeholder-count="2">
         <a href="{{ p.h }}" target="_blank" rel="noopener noreferrer" style="padding:19px 34px;border-radius:999px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-weight:600;font-size:17px;display:inline-flex;align-items:center;gap:8px;" style-hover="border-color:var(--accent);">{{ p.l }}<span class="external-icon"></span></a>
       </sc-for>

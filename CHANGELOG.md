@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.7.0 — 2026-07-13
+
+- Corrected the theatrical release to 7 August 2026 and the CBFC display certification to U/13 across runtime, countdown and static metadata.
+- Added `support@photographerthemovie.com` as the public contact and email-based subscription-request path while retaining the provider-ready automated workflow.
+- Connected approved repository artwork to responsive AVIF, WebP and JPEG hero variants and the social-sharing metadata image.
+- Expanded rendered and source verification for the release date, certification, contact links and production artwork.
+
 ## 1.6.0 — 2026-07-13
 
 - Added a schema-backed JSON editorial source and deterministic generation/check workflow for the immutable runtime content module.

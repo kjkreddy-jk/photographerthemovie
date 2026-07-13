@@ -4,7 +4,7 @@
   "title": "Photographer campaign content",
   "type": "object",
   "additionalProperties": false,
-  "required": ["build", "film", "navigation", "booking", "notifications", "social", "videos", "shorts", "cast", "crew"],
+  "required": ["build", "film", "contact", "navigation", "booking", "notifications", "social", "videos", "shorts", "cast", "crew"],
   "properties": {
     "$schema": { "type": "string" },
     "build": {
@@ -24,6 +24,12 @@
         "releaseFormat": { "type": "string", "minLength": 1 },
         "heroVideoId": { "type": "string", "minLength": 1 }
       }
+    },
+    "contact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["email"],
+      "properties": { "email": { "type": "string", "format": "email" } }
     },
     "navigation": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/internalLink" } },
     "booking": {

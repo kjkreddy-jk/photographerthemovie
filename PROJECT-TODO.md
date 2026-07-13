@@ -15,8 +15,9 @@ Statuses: `DONE`, `IN PROGRESS`, `NEXT`, `BLOCKED`, `LATER`.
 | DONE | Split major sections into importable components | Header, content sections and footer are independently importable; anchors, bindings and modal behavior remain unchanged |
 | DONE | Responsive mobile navigation | Keyboard, touch-size, Escape handling and reduced-motion checks pass |
 | DONE | Responsive local image build pipeline | Pinned fixture test generates and verifies AVIF, WebP and JPEG variants; production originals remain a publishing input |
-| BLOCKED | Publish approved local imagery | Add the approved poster sources listed in `content/image-sources.json`, generate variants and bind them after editorial approval |
+| DONE | Publish approved local imagery | Repository artwork generates responsive hero and social-sharing variants and is packaged with WordPress |
 | DONE | Provider-ready notification client | Disabled configuration sends no data; configured mode requires HTTPS, consent, timeout handling and accessible status feedback |
+| DONE | Email subscription contact path | Contact and subscription requests use `support@photographerthemovie.com` until an automated provider is approved |
 | BLOCKED | Activate notification subscription | Requires an HTTPS provider endpoint, reviewed privacy URL/consent copy and provider-side double opt-in, security and rate limits |
 | DONE | Structured editorial workflow | JSON source, editor schema, deterministic generator and stale-output checks are documented and automated |
 | DONE | Automated browser accessibility and Lighthouse checks | Rendered accessibility guards and Lighthouse run locally and in CI |

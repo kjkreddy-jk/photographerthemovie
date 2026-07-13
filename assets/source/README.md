@@ -1,10 +1,5 @@
 # Approved image sources
 
-Place the approved, full-resolution originals here using the filenames in `content/image-sources.json`.
+The approved campaign repository now lives in `assets/img`, and `content/image-sources.json` identifies which originals produce the hero and social variants.
 
-Required files:
-
-- `hero-poster.jpg`
-- `share-poster.jpg`
-
-Do not upscale small web downloads. Preserve the master artwork elsewhere; this folder is the reproducible web-build input. Run `npm ci` and then `node scripts/build-images.mjs` to generate AVIF, WebP and JPEG variants in `assets/generated`.
+Do not upscale small web downloads. Preserve the master artwork elsewhere; `assets/img` is the reproducible web-build input. Run `npm ci` and then `node scripts/build-images.mjs` to generate AVIF, WebP and JPEG variants in `assets/generated`.

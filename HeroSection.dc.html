@@ -1,6 +1,11 @@
 <x-dc>
 <section id="top" style="position:relative;min-height:clamp(560px,92vh,1000px);display:flex;align-items:flex-end;overflow:hidden;scroll-margin-top:74px;background:var(--bg);">
   <div style="position:absolute;inset:0;overflow:hidden;background:#050706;pointer-events:none;">
+    <picture aria-hidden="true">
+      <source type="image/avif" srcset="./assets/generated/hero-poster-480.avif 480w, ./assets/generated/hero-poster-960.avif 960w, ./assets/generated/hero-poster-1440.avif 1440w" sizes="100vw" />
+      <source type="image/webp" srcset="./assets/generated/hero-poster-480.webp 480w, ./assets/generated/hero-poster-960.webp 960w, ./assets/generated/hero-poster-1440.webp 1440w" sizes="100vw" />
+      <img src="./assets/generated/hero-poster-1440.jpg" srcset="./assets/generated/hero-poster-480.jpg 480w, ./assets/generated/hero-poster-960.jpg 960w, ./assets/generated/hero-poster-1440.jpg 1440w" sizes="100vw" alt="" width="1600" height="805" fetchpriority="high" decoding="async" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;" />
+    </picture>
     <iframe ref="{{ bgRef }}" title="Photographer trailer background" aria-hidden="true" tabindex="-1" referrerpolicy="strict-origin-when-cross-origin" allow="autoplay; encrypted-media" style="position:absolute;top:50%;left:50%;width:max(100vw,177.78vh);height:max(56.25vw,100vh);transform:translate(-50%,-50%);border:0;pointer-events:none;"></iframe>
   </div>
   <div style="position:absolute;inset:0;background:linear-gradient(to top, var(--bg) 0%, rgba(5,10,7,0.92) 20%, rgba(5,10,7,0.55) 52%, rgba(5,10,7,0.42) 100%);"></div>

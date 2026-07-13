@@ -4,14 +4,17 @@
   // Generated from content/site-content.json by scripts/build-content.mjs.
   const content = {
     "build": {
-      "version": "1.6.0"
+      "version": "1.7.0"
     },
     "film": {
       "title": "Photographer",
-      "releaseDate": "2026-08-15",
-      "contentRating": "U/A",
+      "releaseDate": "2026-08-07",
+      "contentRating": "U/13",
       "releaseFormat": "2D",
       "heroVideoId": "0c78E4Fr-OI"
+    },
+    "contact": {
+      "email": "support@photographerthemovie.com"
     },
     "navigation": [
       {
