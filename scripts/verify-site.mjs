@@ -1,0 +1,92 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import vm from 'node:vm';
+import { fileURLToPath } from 'node:url';
+
+const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+const read = (file) => fs.readFileSync(path.join(root, file), 'utf8');
+const assert = (condition, message) => {
+  if (!condition) throw new Error(message);
+};
+const same = (actual, expected, message) => {
+  assert(JSON.stringify(actual) === JSON.stringify(expected), message);
+};
+
+const html = read('index.html');
+const contentSource = read('site-content.js');
+const supportSource = read('support.js');
+const css = read('site.css');
+const version = read('VERSION').trim();
+
+// Parse executable assets without starting the browser-dependent runtime.
+new Function(supportSource);
+const context = vm.createContext({ window: {} });
+context.window.window = context.window;
+vm.runInContext(contentSource, context, { filename: 'site-content.js' });
+const content = context.window.PHOTOGRAPHER_SITE_CONTENT;
+
+assert(content && content.film, 'site-content.js did not register campaign data');
+assert(/^\d+\.\d+\.\d+$/.test(version), 'VERSION must use semantic versioning');
+assert(content.build && content.build.version === version, 'site-content.js build version does not match VERSION');
+assert(Object.isFrozen(content) && Object.isFrozen(content.cast), 'campaign data must remain deeply frozen');
+assert(/^\d{4}-\d{2}-\d{2}$/.test(content.film.releaseDate), 'releaseDate must use YYYY-MM-DD');
+assert(new Date(content.film.releaseDate + 'T00:00:00Z').toISOString().slice(0, 10) === content.film.releaseDate, 'releaseDate is not a real calendar date');
+assert(content.film.heroVideoId, 'heroVideoId is required');
+assert(new Set(content.navigation.map(item => item.href)).size === content.navigation.length, 'navigation href values must be unique');
+for (const item of content.navigation) {
+  assert(item.label && /^#[a-z][\w-]*$/i.test(item.href), 'navigation items need a label and a valid section href');
+}
+for (const item of [...content.booking.partners, ...content.social.film, ...content.social.artist]) {
+  assert(item.label && new URL(item.href).protocol === 'https:', 'outbound content links must use HTTPS and include a label');
+}
+for (const item of [...content.videos, ...content.shorts]) {
+  assert(item.title, 'every media item needs a title');
+}
+assert(new Set(content.cast.map(person => person.name)).size === content.cast.length, 'cast names must be unique');
+
+const contentScriptAt = html.indexOf('<script src="./site-content.js" defer></script>');
+const runtimeScriptAt = html.indexOf('<script src="./support.js" defer></script>');
+assert(contentScriptAt >= 0 && runtimeScriptAt > contentScriptAt, 'site-content.js must load before support.js');
+assert(html.includes(`<meta name="site-version" content="${version}">`), 'HTML site-version does not match VERSION');
+assert(html.includes('<link rel="stylesheet" href="./site.css">'), 'site.css is not linked');
+assert(fs.existsSync(path.join(root, 'site-content.js')) && fs.existsSync(path.join(root, 'support.js')) && fs.existsSync(path.join(root, 'site.css')), 'a linked local asset is missing');
+assert((css.match(/{/g) || []).length === (css.match(/}/g) || []).length, 'site.css contains unbalanced braces');
+
+const ids = [...html.matchAll(/\bid="([^"]+)"/g)].map(match => match[1]);
+assert(new Set(ids).size === ids.length, 'index.html contains duplicate IDs');
+for (const match of html.matchAll(/<button\b[^>]*>/g)) {
+  assert(/\btype="(?:button|submit|reset)"/.test(match[0]), 'every button needs an explicit valid type');
+}
+for (const match of html.matchAll(/<a\b[^>]*target="_blank"[^>]*>/g)) {
+  assert(/\brel="[^"]*noopener[^"]*noreferrer[^"]*"/.test(match[0]), 'new-tab links need noopener and noreferrer');
+}
+assert((html.match(/<main\b/g) || []).length === 1 && (html.match(/<\/main>/g) || []).length === 1, 'index.html must contain one balanced main landmark');
+
+const componentTagAt = html.indexOf('<script type="text/x-dc"');
+const componentStart = html.indexOf('>', componentTagAt) + 1;
+const componentEnd = html.indexOf('</script>', componentStart);
+assert(componentTagAt >= 0 && componentEnd > componentStart, 'component script was not found');
+const Component = new Function('DCLogic', 'window', html.slice(componentStart, componentEnd) + '; return Component;')(class {}, context.window);
+const component = Object.create(Component.prototype);
+component.props = {};
+component.state = { look: 'forest-noir', modal: null, cd: { d: '1', h: '02', m: '03', s: '04' }, muted: true, showNav: true };
+const values = component.renderVals();
+const links = (items) => items.map(item => ({ l: item.label, h: item.href }));
+
+assert(values.filmTitle === content.film.title, 'film title binding changed');
+assert(values.siteVersion === version, 'rendered site version changed');
+assert(values.releaseDateIso === content.film.releaseDate, 'release date binding changed');
+assert(component.heroVideoId() === content.film.heroVideoId, 'hero video binding changed');
+same(values.navLinks, links(content.navigation), 'navigation mapping changed');
+same(values.cities, content.booking.cities, 'city mapping changed');
+same(values.partners, links(content.booking.partners), 'booking partner mapping changed');
+assert(values.trailers.length === content.videos.length, 'video card count changed');
+assert(values.shorts.length === content.shorts.length, 'short card count changed');
+assert(values.cast.length === content.cast.length, 'cast card count changed');
+assert(values.crew.length === content.crew.length, 'crew row count changed');
+
+component.props = { releaseDate: '2027-01-02', heroVideoId: 'override-id' };
+assert(component.releaseInfo().iso === '2027-01-02', 'releaseDate editor override no longer wins');
+assert(component.heroVideoId() === 'override-id', 'heroVideoId editor override no longer wins');
+
+console.log('Site verification passed: content schema, script order, markup guards, mappings and overrides.');
